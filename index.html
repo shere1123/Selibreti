@@ -27,7 +27,6 @@ nav{background:var(--blue);display:flex;justify-content:center;flex-wrap:wrap;pa
 .hero-box:after { content: ""; position: absolute; inset: 30% 0 0; background: linear-gradient(transparent,#071629d9); }
 .hero-caption { position: absolute; z-index: 2; bottom: 12px; left: 12px; right: 12px; color: white; font-weight: 800; word-break: break-word; overflow-wrap: break-word; }
 
-/* साइज अनुसार क्याप्सन र उचाइ */
 .box-3-large { height: 300px; }
 .box-3-large .hero-caption { font-size: 18px; }
 .box-4-small { height: 180px; }
@@ -35,12 +34,11 @@ nav{background:var(--blue);display:flex;justify-content:center;flex-wrap:wrap;pa
 .box-mega { height: 400px; width: 100%; }
 .box-mega .hero-caption { font-size: 24px; }
 
-/* सबै बक्सहरूमा Category ट्याग देखाउने स्टाइल */
 .hero-tag { display: inline-block; background: var(--red); color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; margin-bottom: 6px; position: relative; z-index: 2; }
 
-/* विज्ञापन बक्स खाली हुँदा स्वतः लुक्ने स्टाइल */
+/* विज्ञापन बक्स */
 .ad-slot:empty { display: none; }
-.ad-slot { background: #eef3f9; border: 2px dashed #cbd5e1; border-radius: 10px; padding: 15px; text-align: center; color: var(--muted); font-weight: 600; margin: 15px 0; overflow: hidden; }
+.ad-slot { background: transparent; border: none; border-radius: 0; padding: 0; text-align: center; margin: 10px auto; overflow: hidden; display: flex; justify-content: center; align-items: center; max-width: 100%; }
 .ad-slot img, .ad-slot iframe { max-width: 100% !important; height: auto !important; display: block; margin: 0 auto; }
 
 .section-head{display:flex;justify-content:space-between;align-items:center;margin:23px 0 12px;border-left:5px solid var(--red);padding-left:10px}.section-head h2{font-size:20px;margin:0}.section-head button{border:0;background:none;color:var(--blue);font-weight:700}
@@ -76,10 +74,8 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
 <div class="breaking"><strong>BREAKING</strong><marquee id="breakingLine">डेलि सेलिब्रेटीमा स्वागत छ।</marquee></div>
 <main class="wrap">
  
- <!-- Hero सेक्सन (Ad Slot १ यहाँ मात्र देखिन्छ) -->
  <section class="custom-hero" id="hero"></section>
 
- <!-- Ad Slot ३ (मुख्य समाचार सूची माथि) -->
  <div id="adSlotMiddle" class="ad-slot"></div>
 
  <div class="section-head"><h2>समाचारका Category</h2></div><section class="categories" id="categories"></section>
@@ -87,7 +83,6 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
  <div class="toolbar"><input id="quickSearch" placeholder="समाचार खोज्नुहोस्..." oninput="renderNews()"><select id="sortSelect" onchange="renderNews()" style="max-width:150px"><option value="new">नयाँ पहिले</option><option value="old">पुरानो पहिले</option></select></div>
  <section class="grid" id="newsGrid"></section><button class="primary" style="display:block;margin:18px auto" onclick="loadMore()">थप समाचार</button>
  
- <!-- Ad Slot ४ (Quiz सेक्सन माथि) -->
  <div id="adSlotBottom" class="ad-slot"></div>
 
  <div class="section-head"><h2>लोकप्रिय समाचार</h2></div><section class="grid" id="popularGrid"></section>
@@ -124,8 +119,7 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
   function safe(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
   function dateText(d){return new Date(d).toLocaleDateString("ne-NP",{year:"numeric",month:"short",day:"numeric"})}
 
-  // Firebase बाट सबै डेटा (समाचार, विज्ञापन, ब्रेकिङ न्युज) एकैपटक ल्याउने
-  async function fetchAllFromFirebase() {
+  async function fetchDataFromFirebase() {
     try {
       const querySnapshot = await getDocs(collection(db, "news"));
       let firebaseNews = [];
@@ -160,16 +154,24 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
     $("mobileNav").innerHTML=categories.map(([c,ic])=>`<button class="draweritem" onclick="selectCategory('${c}')">${ic}　${c}</button>`).join("");
     $("categories").innerHTML=categories.map(([c,ic])=>`<button class="cat" onclick="selectCategory('${c}')"><span>${ic}</span>${c}</button>`).join("");
     
-    fetchAllFromFirebase();
+    fetchDataFromFirebase();
   }
 
+  // ५ सेकेन्ड पछि विज्ञापन लोड गराउने फंक्सन
   function renderAds(){
-    if($("adSlotMiddle")) {
-      $("adSlotMiddle").innerHTML = siteAds.adMiddle || "";
-    }
-    if($("adSlotBottom")) {
-      $("adSlotBottom").innerHTML = siteAds.adBottom || "";
-    }
+    setTimeout(() => {
+      if($("adSlotMiddle")) {
+        $("adSlotMiddle").innerHTML = siteAds.adMiddle || "";
+      }
+      if($("adSlotBottom")) {
+        $("adSlotBottom").innerHTML = siteAds.adBottom || "";
+      }
+      // यदि Hero सेक्सन भित्रको ad-slot पनि ढिलो लोड गराउने हो भने:
+      const heroAd = document.querySelector(".custom-hero .ad-slot");
+      if(heroAd) {
+        heroAd.innerHTML = siteAds.ad1 || "";
+      }
+    }, 5000); // 5000 milliseconds = 5 seconds
   }
 
   window.toggleDrawer=function(){$("drawer").classList.toggle("show");$("drawerBg").classList.toggle("show")}
@@ -220,8 +222,7 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
         ${arr[3] ? boxHtmlWithTag(arr[3], 'box-3-large') : ''}
       </div>
 
-      <!-- Ad Slot १: यहाँ मात्र ad1 देखा पर्नेछ -->
-      <div class="ad-slot">${siteAds.ad1 || ''}</div>
+      <div class="ad-slot"></div>
 
       <div class="hero-row-4">
         ${arr[4] ? boxHtmlWithTag(arr[4], 'box-4-small') : ''}
@@ -327,7 +328,6 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
     adminList();
   }
 
-  // विज्ञापनहरू सिधै Firebase मा सेभ गर्ने
   window.saveAdsSettings=async function(e){
     e.preventDefault();
     siteAds = {
@@ -430,7 +430,6 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
     }
   }
 
-  // Breaking News सिधै Firebase मा सेभ गर्ने
   window.saveBreaking=async function(){
     let text = $("breakingInput").value.trim();
     try {
