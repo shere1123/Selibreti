@@ -17,6 +17,8 @@ html, body {
   font-family: 'Mukta', sans-serif;
   width: 100%;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 header {
@@ -35,7 +37,7 @@ header {
 }
 
 .brand { 
-  font-size: 23px; 
+  font-size: 24px; 
   font-weight: 800; 
   color: var(--blue); 
   text-decoration: none; 
@@ -54,10 +56,10 @@ header {
   background: #ffffff;
 }
 
-.tag { display: inline-block; background: #eef2f6; color: var(--blue); padding: 5px 12px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+.tag { display: inline-block; background: #eef2f6; color: var(--blue); padding: 5px 12px; border-radius: 4px; font-size: 15px; font-weight: 700; margin-bottom: 12px; }
 
 h1 {
-  font-size: 32px;
+  font-size: 33px;
   line-height: 1.4;
   margin: 10px 0;
   color: #0f172a;
@@ -66,7 +68,7 @@ h1 {
   overflow-wrap: break-word;
 }
 
-.muted { color: var(--muted); font-size: 15px; margin-bottom: 18px; font-weight: 500; }
+.muted { color: var(--muted); font-size: 16px; margin-bottom: 18px; font-weight: 600; }
 
 .articleimg-container {
   width: 100vw;
@@ -87,8 +89,8 @@ h1 {
 }
 
 .summary {
-  font-size: 21px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700; /* अक्षर अझ मोटो बनाइएको */
   color: #1f2937;
   margin-bottom: 25px;
   line-height: 1.8;
@@ -103,12 +105,13 @@ h1 {
 
 .articlebody {
   line-height: 2.2;
-  font-size: 21px;
+  font-size: 22px;
   color: #111827;
+  font-weight: 500; /* सामान्य पाठ अलि मोटो र स्पष्ट */
   text-align: justify;
   word-break: break-word;
   overflow-wrap: break-word;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
 }
 
 .articlebody img {
@@ -136,28 +139,87 @@ h1 {
   border: 0;
 }
 
-/* आकर्षक र राम्रो लाइक बटन डिजाइन */
-.actions { display: flex; gap: 12px; align-items: center; margin: 30px 0; }
+/* लाइक बटन र सेयर बारलाई एकअर्कासँग टाँसेर राख्ने कन्टेनर */
+.engagement-wrapper {
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px; 
+  max-width: 480px;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* फेसबुकको जस्तो 👍️ आइकन भएको सेतो लाइक बटन */
 .like-btn { 
-  background: linear-gradient(135deg, #d92735, #b91c28); 
-  color: white; 
-  border: 0; 
-  padding: 12px 24px; 
-  border-radius: 8px; 
+  background: #ffffff; 
+  color: #1877f2; 
+  border: none; 
+  border-bottom: 1px solid #ccd0d5; 
+  padding: 12px 22px; 
+  border-radius: 0px; 
   cursor: pointer; 
   font-family: 'Mukta', sans-serif; 
-  font-weight: 700; 
-  font-size: 17px; 
+  font-weight: 800; /* बटनको अक्षर मोटो बनाइएको */
+  font-size: 18px; 
   display: inline-flex; 
   align-items: center; 
+  justify-content: center;
   gap: 8px; 
-  box-shadow: 0 4px 12px rgba(217, 39, 53, 0.25);
-  transition: transform 0.1s ease, background 0.2s;
+  width: 100%;
+  transition: background 0.2s;
 }
-.like-btn:active { transform: scale(0.96); }
-.like-btn svg { width: 20px; height: 20px; fill: currentColor; }
+.like-btn:hover { background: #f0f2f5; }
+.like-btn:active { transform: scale(0.98); }
+.like-btn svg { width: 22px; height: 22px; fill: #1877f2; }
 
-.primary { background: var(--blue); color: white; border: 0; padding: 12px 20px; border-radius: 7px; font-weight: 700; cursor: pointer; font-family: 'Mukta', sans-serif; font-size: 16px; }
+/* स्क्रिनमा घुमेर Thank You देखाउने पपअप एनिमेसन */
+#thankYouPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(17, 24, 39, 0.95);
+  color: white;
+  padding: 25px 40px;
+  border-radius: 16px;
+  text-align: center;
+  z-index: 9999;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+#thankYouPopup.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+#thankYouPopup .heart-anim {
+  font-size: 45px;
+  display: block;
+  animation: spinHeart 0.8s ease-in-out infinite alternate;
+  margin-bottom: 8px;
+}
+@keyframes spinHeart {
+  0% { transform: scale(1) rotate(-10deg); }
+  100% { transform: scale(1.25) rotate(10deg); }
+}
+#thankYouPopup h2 {
+  margin: 0;
+  font-size: 26px;
+  color: #4facfe;
+  font-weight: 800;
+}
+#thankYouPopup p {
+  margin: 5px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.primary { background: var(--blue); color: white; border: 0; padding: 12px 20px; border-radius: 7px; font-weight: 800; cursor: pointer; font-family: 'Mukta', sans-serif; font-size: 17px; }
 
 .ad-slot { 
   background: #f1f5f9; 
@@ -166,7 +228,7 @@ h1 {
   padding: 10px 0; 
   text-align: center; 
   color: var(--muted); 
-  font-weight: 600; 
+  font-weight: 700; 
   margin: 30px calc(-4% - 16px); 
   overflow: hidden; 
 }
@@ -183,11 +245,9 @@ h1 {
   display: flex;
   align-items: center;
   background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  margin: 30px 0;
+  border: none;
   overflow: hidden;
-  max-width: 480px;
+  width: 100%;
 }
 .shares-count {
   padding: 10px 20px;
@@ -197,8 +257,8 @@ h1 {
   border-right: 1px solid var(--line);
 }
 .shares-count .num {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 25px;
+  font-weight: 800;
   color: #4b5563;
   line-height: 1;
   display: block;
@@ -206,7 +266,7 @@ h1 {
 .shares-count .lbl {
   font-size: 14px;
   color: #4b5563;
-  font-weight: 600;
+  font-weight: 700;
 }
 .share-icons-group {
   display: flex;
@@ -247,8 +307,8 @@ textarea, input {
   margin-top: 6px;
   margin-bottom: 14px;
   font-family: 'Mukta', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 600; /* इनपुटभित्रको अक्षर मोटो बनाइएको */
 }
 
 .panel {
@@ -259,8 +319,8 @@ textarea, input {
   margin: 12px 0;
   word-break: break-word;
 }
-.panel b { color: #0f172a; }
-.panel p { color: #334155; }
+.panel b { color: #0f172a; font-size: 17px; }
+.panel p { color: #334155; font-size: 16px; font-weight: 500; }
 
 .related-grid {
   display: grid;
@@ -287,20 +347,20 @@ textarea, input {
   padding: 12px;
 }
 .related-body h4 {
-  font-size: 15px;
+  font-size: 16px;
   margin: 6px 0 0 0;
   line-height: 1.4;
   color: #111827;
-  font-weight: 700;
+  font-weight: 700; /* सम्बन्धित समाचारको शीर्षक मोटो बनाइएको */
 }
 
-#toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 12px 20px; border-radius: 8px; z-index: 100; display: none; font-weight: 600; }
-.back-link { display: inline-block; margin-bottom: 15px; color: var(--blue); font-weight: 700; text-decoration: none; font-size: 17px; }
+#toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 12px 20px; border-radius: 8px; z-index: 100; display: none; font-weight: 700; font-size: 16px; }
+.back-link { display: inline-block; margin-bottom: 15px; color: var(--blue); font-weight: 800; text-decoration: none; font-size: 18px; }
 
 @media(max-width: 768px) {
   .related-grid { grid-template-columns: 1fr; }
-  h1 { font-size: 26px; }
-  .articlebody, .summary { font-size: 20px; }
+  h1 { font-size: 27px; }
+  .articlebody, .summary { font-size: 21px; }
 }
 </style>
 </head>
@@ -311,8 +371,15 @@ textarea, input {
 </header>
 
 <main class="wrap" id="articleContainer">
-  <p style="text-align:center; padding:50px; font-size:18px;">समाचार लोड हुँदैछ...</p>
+  <p style="text-align:center; padding:50px; font-size:18px; font-weight:700;">समाचार लोड हुँदैछ...</p>
 </main>
+
+<!-- स्क्रिनमा घुमेर Thank You देखाउने पपअप बक्स -->
+<div id="thankYouPopup">
+  <span class="heart-anim">👍</span>
+  <h2>Thank You!</h2>
+  <p>तपाईंको अमूल्य लाइकको लागि धन्यवाद।</p>
+</div>
 
 <div id="toast"></div>
 
@@ -346,7 +413,7 @@ textarea, input {
     });
   }
 
-  // ग्लोबल रियल लाइक फंक्सन
+  // ग्लोबल रियल लाइक फंक्सन + Thank You एनिमेसन पपअप
   window.likeArticle = async function(docId) {
     try {
       const ref = doc(db, "news", String(docId));
@@ -356,7 +423,13 @@ textarea, input {
         let newLikes = (Number(d.likes) || 0) + 1;
         await updateDoc(ref, { likes: newLikes });
         if($("likeCount")) $("likeCount").textContent = newLikes;
-        toast("❤️ धन्यवाद! सफलतापूर्वक लाइक गरियो।");
+        
+        // Thank You Popup देखाउने एनिमेसन
+        const popup = $("thankYouPopup");
+        popup.classList.add("show");
+        setTimeout(() => {
+          popup.classList.remove("show");
+        }, 2200);
       }
     } catch(e) {
       console.error("Like error:", e);
@@ -452,36 +525,35 @@ textarea, input {
           ${siteAds.inArticle || '📢 विज्ञापन राख्ने ठाउँ (Ad Banner)'}
         </div>
 
-        <!-- राम्रो र आकर्षक लाइक बटन (सुरक्षित गर्नुहोस् हटाइएको छ) -->
-        <div class="actions">
+        <!-- लाइक बटन र सेयर बार एकअर्कासँग टाँसिएको चिटिक्कको बक्स -->
+        <div class="engagement-wrapper">
           <button class="like-btn" onclick="likeArticle('${article.firebaseDocId}')">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
             मनपराउनुहोस् (<span id="likeCount">${totalLikes}</span>)
           </button>
-        </div>
 
-        <!-- सेयर बार डिजाइन -->
-        <div class="share-bar-container">
-          <div class="shares-count">
-            <span class="num" id="shareCountNum">${totalShares}</span>
-            <span class="lbl">Shares</span>
-          </div>
-          <div class="share-icons-group">
-            <button onclick="handleShare('${article.firebaseDocId}', 'fb')" class="s-icon-btn bg-fb" title="Facebook मा सेयर गर्नुहोस्">
-              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </button>
-            <button onclick="handleShare('${article.firebaseDocId}', 'x')" class="s-icon-btn bg-x" title="X मा सेयर गर्नुहोस्">
-              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </button>
-            <button onclick="handleShare('${article.firebaseDocId}', 'messenger')" class="s-icon-btn bg-messenger" title="Messenger मा पठाउनुहोस्">
-              <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 4.979 0 11.111c0 3.497 1.745 6.616 4.472 8.654v4.235l4.1-2.254c1.031.286 2.122.439 3.428.439 6.627 0 12-4.979 12-11.111S18.627 0 12 0zm1.091 14.73l-2.618-2.793-5.109 2.793 5.618-5.964 2.673 2.793 5.055-2.793-5.619 5.964z"/></svg>
-            </button>
-            <button onclick="handleShare('${article.firebaseDocId}', 'wa')" class="s-icon-btn bg-wa" title="WhatsApp मा सेयर गर्नुहोस्">
-              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-            </button>
-            <button onclick="handleShare('${article.firebaseDocId}', 'copy')" class="s-icon-btn bg-share" title="लिङ्क कपी गर्नुहोस्">
-              <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
-            </button>
+          <div class="share-bar-container">
+            <div class="shares-count">
+              <span class="num" id="shareCountNum">${totalShares}</span>
+              <span class="lbl">Shares</span>
+            </div>
+            <div class="share-icons-group">
+              <button onclick="handleShare('${article.firebaseDocId}', 'fb')" class="s-icon-btn bg-fb" title="Facebook मा सेयर गर्नुहोस्">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </button>
+              <button onclick="handleShare('${article.firebaseDocId}', 'x')" class="s-icon-btn bg-x" title="X मा सेयर गर्नुहोस्">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </button>
+              <button onclick="handleShare('${article.firebaseDocId}', 'messenger')" class="s-icon-btn bg-messenger" title="Messenger मा पठाउनुहोस्">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 4.979 0 11.111c0 3.497 1.745 6.616 4.472 8.654v4.235l4.1-2.254c1.031.286 2.122.439 3.428.439 6.627 0 12-4.979 12-11.111S18.627 0 12 0zm1.091 14.73l-2.618-2.793-5.109 2.793 5.618-5.964 2.673 2.793 5.055-2.793-5.619 5.964z"/></svg>
+              </button>
+              <button onclick="handleShare('${article.firebaseDocId}', 'wa')" class="s-icon-btn bg-wa" title="WhatsApp मा सेयर गर्नुहोस्">
+                <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              </button>
+              <button onclick="handleShare('${article.firebaseDocId}', 'copy')" class="s-icon-btn bg-share" title="लिङ्क कपी गर्नुहोस्">
+                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+              </button>
+            </div>
           </div>
         </div>
         
@@ -493,7 +565,7 @@ textarea, input {
             <a href="red.html?id=${item.firebaseDocId}" class="related-card">
               <img src="${safe(item.image || "https://placehold.co/400x250")}" onerror="this.src='https://placehold.co/400x250?text=News'">
               <div class="related-body">
-                <span style="font-size:12px; color:var(--blue); font-weight:700;">${safe(item.category)}</span>
+                <span style="font-size:13px; color:var(--blue); font-weight:800;">${safe(item.category)}</span>
                 <h4>${safe(item.title)}</h4>
               </div>
             </a>
@@ -509,7 +581,7 @@ textarea, input {
             <a href="red.html?id=${item.firebaseDocId}" class="related-card">
               <img src="${safe(item.image || "https://placehold.co/400x250")}" onerror="this.src='https://placehold.co/400x250?text=News'">
               <div class="related-body">
-                <span style="font-size:12px; color:var(--blue); font-weight:700;">${safe(item.category)}</span>
+                <span style="font-size:13px; color:var(--blue); font-weight:800;">${safe(item.category)}</span>
                 <h4>${safe(item.title)}</h4>
               </div>
             </a>
