@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>समाचार विवरण | डेलि सेलिब्रेटी</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap');
+:root{--blue:#123d70;--red:#d92735;--ink:#172235;--muted:#687386;--line:#e6eaf0}
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: 'Mukta', sans-serif;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+header {
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 4%;
+  border-bottom: 1px solid var(--line);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.brand { 
+  font-size: 23px; 
+  font-weight: 800; 
+  color: var(--blue); 
+  text-decoration: none; 
+  display: inline-flex; 
+  align-items: center; 
+  white-space: nowrap; 
+  gap: 4px;
+}
+.brand b { color: var(--red); }
+
+.wrap {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 80px 4% 20px 4%;
+  background: #ffffff;
+}
+
+.tag { display: inline-block; background: #eaf1fa; color: var(--blue); padding: 4px 10px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+
+h1 {
+  font-size: 32px;
+  line-height: 1.4;
+  margin: 10px 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.muted { color: var(--muted); font-size: 15px; margin-bottom: 15px; }
+
+.articleimg-container {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-bottom: 25px;
+  background: #000;
+}
+
+.articleimg {
+  width: 100% !important;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+.summary {
+  font-size: 21px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 25px;
+  line-height: 1.8;
+  text-align: justify;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  background: #f8f9fc;
+  padding: 16px 20px;
+  border-left: 5px solid var(--red);
+  border-radius: 4px;
+}
+
+.articlebody {
+  line-height: 2.2;
+  font-size: 21px;
+  color: #1a252f;
+  text-align: justify;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  letter-spacing: 0.2px;
+}
+
+.articlebody img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin: 15px auto;
+  border-radius: 6px;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  margin: 20px 0;
+}
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  border: 0;
+}
+
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 25px 0; }
+.smallbtn { border: 1px solid var(--line); background: #f7f9fc; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-family: 'Mukta', sans-serif; font-weight: 600; font-size: 16px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--ink); }
+.primary { background: var(--blue); color: white; border: 0; padding: 12px 18px; border-radius: 7px; font-weight: 700; cursor: pointer; font-family: 'Mukta', sans-serif; font-size: 16px; }
+
+.ad-slot { 
+  background: #eef3f9; 
+  border: none; 
+  border-radius: 0; 
+  padding: 0; 
+  text-align: center; 
+  color: var(--muted); 
+  font-weight: 600; 
+  margin: 25px calc(-4% - 16px); 
+  overflow: hidden; 
+}
+
+.ad-slot img, .ad-slot iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+.share-box {
+  background: #f4f6f9;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 25px 0;
+}
+.share-box h4 { margin: 0 0 12px 0; font-size: 17px; color: var(--blue); }
+.share-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+.share-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 6px;
+  font-weight: 700; font-size: 15px; color: white; text-decoration: none; border: 0; cursor: pointer;
+}
+.share-btn svg { width: 18px; height: 18px; fill: currentColor; }
+.fb { background: #1877f2; }
+.wa { background: #25d366; }
+.tw { background: #000000; }
+.copy { background: #687386; }
+
+textarea, input {
+  border: 1px solid #d8dee8; border-radius: 7px; padding: 12px; background: #ffffff;
+  color: var(--ink); width: 100%; margin-top: 6px; margin-bottom: 12px; font-family: 'Mukta', sans-serif; font-size: 16px;
+}
+
+.panel { background: #f9fbff; border: 1px solid var(--line); border-radius: 9px; padding: 16px; margin: 12px 0; word-break: break-word; }
+
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
+.related-card { background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+.related-card img { width: 100%; height: 120px; object-fit: cover; }
+.related-body { padding: 10px; }
+.related-body h4 { font-size: 15px; margin: 0; line-height: 1.4; color: var(--ink); }
+
+#toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: #14263e; color: white; padding: 10px 16px; border-radius: 8px; z-index: 100; display: none; }
+.back-link { display: inline-block; margin-bottom: 15px; color: var(--blue); font-weight: 700; text-decoration: none; font-size: 17px; }
+
+@media(max-width: 768px) {
+  .related-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 26px; }
+  .articlebody, .summary { font-size: 21px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+ <a class="brand" href="index.html">डेलि&nbsp;<b>सेलिब्रेटी</b></a>
+</header>
+
+<main class="wrap" id="articleContainer">
+  <p style="text-align:center; padding:40px;">समाचार लोड हुँदैछ...</p>
+</main>
+
+<div id="toast"></div>
+
+<!-- Firebase SDKs र Firestore Initialization -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA0UIpvEPLzyPCWxHohbkFN9JPYVC79SpU",
+    authDomain: "daily-selibreti-116f2.firebaseapp.com",
+    projectId: "daily-selibreti-116f2",
+    storageBucket: "daily-selibreti-116f2.firebasestorage.app",
+    messagingSenderId: "478081000563",
+    appId: "1:478081000563:web:95758e689a2f8ab8253606"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const $=id=>document.getElementById(id);
+  function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2200)}
+  function safe(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+  function dateText(d){return new Date(Number(d)).toLocaleDateString("ne-NP",{year:"numeric",month:"short",day:"numeric"})}
+
+  function parseBodyContent(text) {
+    if(!text) return "";
+    const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/g;
+    let formatted = text.replace(ytRegex, (match, p1) => {
+      return `<div class="video-container"><iframe src="https://www.youtube.com/embed/${p1}" allowfullscreen></iframe></div>`;
+    });
+    return formatted;
+  }
+
+  async function loadArticleContent(){
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if(!id){
+      $("articleContainer").innerHTML=`<h2>समाचार फेला परेन!</h2><a href="index.html" class="back-link">← गृहपृष्ठमा फर्कनुहोस्</a>`;
+      return;
+    }
+
+    try {
+      // Firebase Firestore बाट ID म्याच गर्ने समाचार तान्ने
+      const docRef = doc(db, "news", String(id));
+      const docSnap = await getDoc(docRef);
+
+      if(!docSnap.exists()){
+        $("articleContainer").innerHTML=`<h2>यो समाचार उपलब्ध छैन वा हटाइएको छ!</h2><a href="index.html" class="back-link">← गृहपृष्ठमा फर्कनुहोस्</a>`;
+        return;
+      }
+
+      let n = docSnap.data();
+
+      // View बढाउने र सेभ गर्ने
+      n.views = (n.views || 0) + 1;
+      await setDoc(docRef, n, { merge: true });
+
+      // अन्य सम्बन्धित समाचारहरूका लागि सबै डेटा तान्ने
+      const querySnapshot = await getDocs(collection(db, "news"));
+      let allNews = [];
+      querySnapshot.forEach((d) => {
+        allNews.push(d.data());
+      });
+
+      const comments = JSON.parse(localStorage.getItem("np_comments_"+id)||"[]");
+      const siteAds = JSON.parse(localStorage.getItem("np_ads")||"{}");
+      
+      let relatedNews = allNews.filter(x => String(x.id) !== String(id)).sort(() => 0.5 - Math.random()).slice(0, 6);
+
+      const currentUrl = encodeURIComponent(window.location.href);
+      const shareTitle = encodeURIComponent(n.title);
+
+      $("articleContainer").innerHTML = `
+        <a href="index.html" class="back-link">← गृहपृष्ठमा फर्कनुहोस्</a>
+        <span class="tag">${safe(n.category)}</span>
+        <h1>${safe(n.title)}</h1>
+        <p class="muted">${dateText(n.date)} · 👁 ${n.views || 1} पटक हेरिएको</p>
+        
+        <div class="articleimg-container">
+          <img class="articleimg" src="${safe(n.image||"https://placehold.co/900x500")}" onerror="this.src='https://placehold.co/900x500?text=News'">
+        </div>
+
+        <p class="summary">${safe(n.summary||"")}</p>
+        
+        <div class="articlebody">${parseBodyContent(n.body)}</div>
+        
+        <div class="ad-slot">
+          ${siteAds.inArticle || '📢 विज्ञापन राख्ने ठाउँ (Ad Banner)'}
+        </div>
+
+        <div class="actions">
+          <button class="smallbtn" onclick="likeNews('${id}')">👍 लाइक गर्नुहोस् (<span id="likeCount">${n.likes||0}</span>)</button>
+          <button class="smallbtn" onclick="bookmark('${id}')">🔖 सुरक्षित गर्नुहोस्</button>
+        </div>
+
+        <div class="share-box">
+          <h4>यो समाचार सामाजिक सञ्जालमा सेयर गर्नुहोस्:</h4>
+          <div class="share-buttons">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=${currentUrl}" target="_blank" class="share-btn fb">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              Facebook
+            </a>
+            <a href="https://api.whatsapp.com/send?text=${shareTitle}%20-%20${currentUrl}" target="_blank" class="share-btn wa">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              WhatsApp
+            </a>
+            <a href="https://twitter.com/intent/tweet?text=${shareTitle}&url=${currentUrl}" target="_blank" class="share-btn tw">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              X (Twitter)
+            </a>
+            <button onclick="copyLink()" class="share-btn copy">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              लिङ्क कपी गर्नुहोस्
+            </button>
+          </div>
+        </div>
+        
+        <hr style="border:0;border-top:1px solid var(--line);margin:35px 0">
+
+        <h3>थप समाचारहरू</h3>
+        <div class="related-grid">
+          ${relatedNews.slice(0, 3).map(item => `
+            <a href="red.html?id=${item.id}" class="related-card">
+              <img src="${safe(item.image||"https://placehold.co/400x250")}" onerror="this.src='https://placehold.co/400x250?text=News'">
+              <div class="related-body">
+                <span style="font-size:12px; color:var(--blue); font-weight:700;">${safe(item.category)}</span>
+                <h4>${safe(item.title)}</h4>
+              </div>
+            </a>
+          `).join("")}
+        </div>
+
+        <div class="ad-slot" style="margin: 35px calc(-4% - 16px);">
+          ${siteAds.adMiddle || '📢 विज्ञापन राख्ने ठाउँ (Ad Banner)'}
+        </div>
+
+        <div class="related-grid" style="margin-top:0;">
+          ${relatedNews.slice(3, 6).map(item => `
+            <a href="red.html?id=${item.id}" class="related-card">
+              <img src="${safe(item.image||"https://placehold.co/400x250")}" onerror="this.src='https://placehold.co/400x250?text=News'">
+              <div class="related-body">
+                <span style="font-size:12px; color:var(--blue); font-weight:700;">${safe(item.category)}</span>
+                <h4>${safe(item.title)}</h4>
+              </div>
+            </a>
+          `).join("")}
+        </div>
+
+        <hr style="border:0;border-top:1px solid var(--line);margin:35px 0">
+        
+        <h3>पाठक प्रतिक्रिया / Comments</h3>
+        <input id="commentName" placeholder="तपाईंको नाम">
+        <textarea id="commentText" placeholder="आफ्नो विचार वा प्रतिक्रिया यहाँ लेख्नुहोस्..." style="min-height:90px; resize:vertical;"></textarea>
+        <button class="primary" onclick="addComment('${id}')">प्रतिक्रिया पठाउनुहोस्</button>
+        
+        <div id="comments" style="margin-top:20px">
+          ${comments.map(c=>`<div class="panel"><b>${safe(c.name)}</b><p style="margin:6px 0 0">${safe(c.text)}</p></div>`).join("")}
+        </div>
+      `;
+
+      window.likeNews = async function(newsId) {
+        try {
+          const ref = doc(db, "news", String(newsId));
+          const snap = await getDoc(ref);
+          if(snap.exists()){
+            let dat = snap.data();
+            dat.likes = (dat.likes || 0) + 1;
+            await setDoc(ref, dat, { merge: true });
+            $("likeCount").textContent = dat.likes;
+            toast("सफलतापूर्वक लाइक गरियो!");
+          }
+        } catch(e) {
+          toast("लाइक गर्न असफल!");
+        }
+      };
+
+    } catch (err) {
+      console.error("Error loading article: ", err);
+      $("articleContainer").innerHTML=`<h2>समाचार लोड गर्न असफल भयो!</h2><a href="index.html" class="back-link">← गृहपृष्ठमा फर्कनुहोस्</a>`;
+    }
+  }
+
+  window.bookmark = function(id){
+    let b = JSON.parse(localStorage.getItem("np_saved")||"[]");
+    if(!b.includes(id)) b.push(id);
+    localStorage.setItem("np_saved", JSON.stringify(b));
+    toast("बुकमार्कमा सुरक्षित भयो!");
+  }
+
+  window.copyLink = function(){
+    navigator.clipboard?.writeText(window.location.href);
+    toast("समाचारको लिङ्क सफलतापूर्वक कपी भयो!");
+  }
+
+  window.addComment = function(id){
+    let name = $("commentName").value.trim(), text = $("commentText").value.trim();
+    if(!name || !text) return toast("कृपया आफ्नो नाम र प्रतिक्रिया दुवै लेख्नुहोस्!");
+    let k = "np_comments_"+id, arr = JSON.parse(localStorage.getItem(k)||"[]");
+    arr.unshift({name, text});
+    localStorage.setItem(k, JSON.stringify(arr));
+    loadArticleContent();
+    toast("तपाईंको प्रतिक्रिया थपियो!");
+  }
+
+  loadArticleContent();
+</script>
+</body>
+</html>
