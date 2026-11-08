@@ -1,1 +1,430 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123d70">
+<title>डेलि सेलिब्रेटी | News Portal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap');
+:root{--blue:#123d70;--red:#d92735;--ink:#172235;--muted:#687386;--line:#e6eaf0;--bg:#f4f6f9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Mukta',sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.topline{background:#0b294c;color:#eaf2ff;padding:6px 4%;font-size:12px;display:flex;justify-content:space-between;gap:8px}
+header{background:white;display:flex;align-items:center;justify-content:space-between;padding:12px 4%;gap:12px;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px #10274412}
+.brand{font-size:23px;font-weight:800;color:var(--blue);white-space:nowrap}.brand b{color:var(--red)}
+.header-actions{display:flex;align-items:center;gap:8px}.iconbtn{border:0;background:#eef3f9;color:var(--blue);padding:9px 12px;border-radius:7px;font-size:19px}
+.primary{background:var(--blue);color:white;border:0;padding:10px 14px;border-radius:7px;font-weight:700}.danger{background:var(--red);color:white;border:0;padding:8px 11px;border-radius:6px}
+nav{background:var(--blue);display:flex;justify-content:center;flex-wrap:wrap;padding:0 3%}nav button{background:none;border:0;color:white;padding:12px 11px;font-weight:700}nav button:hover,nav button.active{background:var(--red)}
+.wrap{max-width:1200px;margin:auto;padding:14px}
+.breaking{background:white;border-radius:8px;display:flex;align-items:center;gap:10px;padding:9px 12px;margin:12px auto;max-width:1170px;box-shadow:0 2px 8px #10274408}.breaking strong{background:var(--red);color:white;padding:7px 10px;border-radius:5px;white-space:nowrap;font-size:13px}.breaking marquee{font-size:14px;font-weight:600}
+
+/* लेआउट संरचना */
+.custom-hero { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
+.hero-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.hero-row-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.hero-box { position: relative; border-radius: 10px; overflow: hidden; background: #dce3ec; cursor: pointer; }
+.hero-box img { width: 100%; height: 100%; object-fit: cover; }
+.hero-box:after { content: ""; position: absolute; inset: 30% 0 0; background: linear-gradient(transparent,#071629d9); }
+.hero-caption { position: absolute; z-index: 2; bottom: 12px; left: 12px; right: 12px; color: white; font-weight: 800; word-break: break-word; overflow-wrap: break-word; }
+
+/* साइज अनुसार क्याप्सन र उचाइ */
+.box-3-large { height: 300px; }
+.box-3-large .hero-caption { font-size: 18px; }
+.box-4-small { height: 180px; }
+.box-4-small .hero-caption { font-size: 14px; }
+.box-mega { height: 400px; width: 100%; }
+.box-mega .hero-caption { font-size: 24px; }
+
+/* सबै बक्सहरूमा Category ट्याग देखाउने स्टाइल */
+.hero-tag { display: inline-block; background: var(--red); color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; margin-bottom: 6px; position: relative; z-index: 2; }
+
+/* विज्ञापन बक्सको डिजाइन */
+.ad-slot { background: #eef3f9; border: 2px dashed #cbd5e1; border-radius: 10px; padding: 15px; text-align: center; color: var(--muted); font-weight: 600; margin: 15px 0; overflow: hidden; }
+
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:23px 0 12px;border-left:5px solid var(--red);padding-left:10px}.section-head h2{font-size:20px;margin:0}.section-head button{border:0;background:none;color:var(--blue);font-weight:700}
+.categories{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}.cat{border:1px solid var(--line);background:white;border-radius:8px;padding:12px 5px;color:var(--blue);font-weight:700}.cat span{display:block;font-size:22px;margin-bottom:5px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:white;border:1px solid var(--line);border-radius:9px;overflow:hidden;cursor:pointer;min-width:0}.card img{width:100%;height:180px;object-fit:cover;background:#e3e8ef}.cardbody{padding:12px;word-break:break-word;overflow-wrap:break-word}.tag{display:inline-block;background:#eaf1fa;color:var(--blue);padding:4px 8px;border-radius:4px;font-size:12px;font-weight:700}.card h3{font-size:16px;line-height:1.5;margin:8px 0;word-break:break-word;overflow-wrap:break-word}.muted{color:var(--muted);font-size:12px}.summary{font-size:13px;line-height:1.6;color:#566174;margin:6px 0;word-break:break-word;overflow-wrap:break-word}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.toolbar input{flex:1;min-width:180px}.field,input,textarea,select{border:1px solid #d8dee8;border-radius:7px;padding:11px;background:white;color:var(--ink);width:100%}textarea{min-height:100px;resize:vertical}
+.panel{background:white;border:1px solid var(--line);border-radius:9px;padding:15px;margin:14px 0;word-break:break-word;overflow-wrap:break-word}
+footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-align:center}footer a{margin:8px;color:#dce8f8;font-size:13px}
+.drawerbg,.modalbg{position:fixed;inset:0;background:#07162999;z-index:50;display:none}.drawerbg.show,.modalbg.show{display:block}.drawer{position:fixed;z-index:51;top:0;bottom:0;left:-330px;width:310px;max-width:86%;background:white;overflow:auto;transition:.25s}.drawer.show{left:0}.drawerhead{padding:16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.draweritem{width:100%;border:0;border-bottom:1px solid var(--line);background:white;text-align:left;padding:13px 16px;font-weight:700;color:var(--blue)}
+.modalbg{display:none;align-items:center;justify-content:center;padding:14px;overflow:auto}.modalbg.show{display:flex}.modal{background:white;border-radius:11px;padding:20px;width:100%;max-width:760px;max-height:92vh;overflow:auto;position:relative}.close{float:right;border:0;border-radius:50%;background:#edf1f6;padding:7px 11px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#14263e;color:white;padding:10px 16px;border-radius:8px;z-index:100;display:none}
+
+@media(max-width:700px){
+  .hero-row-3 { grid-template-columns: 1fr; }
+  .hero-row-4 { grid-template-columns: repeat(2, 1fr); }
+  .box-3-large { height: 220px; }
+  .box-4-small { height: 140px; }
+  .box-mega { height: 240px; }
+  .topline{font-size:10px}.brand{font-size:19px}nav{display:none}.wrap{padding:10px}.categories{grid-template-columns:repeat(4,1fr);gap:6px}.cat{font-size:12px;padding:9px 3px}.cat span{font-size:20px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card img{height:125px}.cardbody{padding:9px}.card h3{font-size:14px}.summary{font-size:12px}.section-head h2{font-size:18px}.header-actions .admin-short{display:none}.breaking{margin:9px}.breaking strong{font-size:11px;padding:6px}
+}
+@media(min-width:701px){#menuBtn{display:none}}
+</style>
+</head>
+<body>
+<div class="topline"><span id="today">Daily Selibreti</span><span>ताजा • सत्य • निष्पक्ष</span></div>
+<header>
+ <button class="iconbtn" id="menuBtn" onclick="toggleDrawer()">☰</button>
+ <a class="brand" href="#" onclick="goHome()">Daily<b> Selibreti</b></a>
+ <div class="header-actions"><button class="iconbtn" onclick="openSearch()">⌕</button><button class="primary admin-short" onclick="openAdmin()">Admin</button></div>
+</header>
+<nav id="desktopNav"></nav>
+<div class="drawerbg" id="drawerBg" onclick="toggleDrawer()"></div><aside class="drawer" id="drawer"><div class="drawerhead"><b class="brand">समाचार मेनु</b><button class="iconbtn" onclick="toggleDrawer()">✕</button></div><div id="mobileNav"></div></aside>
+<div class="breaking"><strong>BREAKING</strong><marquee id="breakingLine">तपाइहरुलाइ डेलि सेलिब्रेटीमा समाचारमा स्वागत छ । यसमा तपाइहरुले लोकसेवाको Qize खेल्न सक्नुहुन्छ। आफ्नो तयारी गर्न सक्नु हुन्छ । तेसैले आफ्नो दिमागलाई सधै चेक गर्न नभुल्नु होला । ।</marquee></div>
+<main class="wrap">
+ 
+ <!-- यहाँ पहिलो ठूलो समाचार बक्स, त्यसपछि Quiz बक्स र अन्य बक्सहरू सही क्रममा रेन्डर हुनेछन् -->
+ <section class="custom-hero" id="hero"></section>
+
+ <!-- अतिरिक्त विज्ञापन ठाउँ (तल मुख्य समाचार सूची माथि) -->
+ <div id="adSlotMiddle" class="ad-slot"></div>
+
+ <div class="section-head"><h2>समाचारका Category</h2></div><section class="categories" id="categories"></section>
+ <div class="section-head"><h2 id="listTitle">मुख्य समाचार</h2><button onclick="showAll()">सबै हेर्नुहोस् →</button></div>
+ <div class="toolbar"><input id="quickSearch" placeholder="समाचार खोज्नुहोस्..." oninput="renderNews()"><select id="sortSelect" onchange="renderNews()" style="max-width:150px"><option value="new">नयाँ पहिले</option><option value="old">पुरानो पहिले</option></select></div>
+ <section class="grid" id="newsGrid"></section><button class="primary" style="display:block;margin:18px auto" onclick="loadMore()">थप समाचार</button>
+ 
+ <!-- थप विज्ञापन ठाउँ -->
+ <div id="adSlotBottom" class="ad-slot"></div>
+
+ <div class="section-head"><h2>लोकप्रिय समाचार</h2></div><section class="grid" id="popularGrid"></section>
+</main>
+<footer><h2>डेलि सेलिब्रेटी</h2><p>सत्य, तथ्य र निष्पक्ष समाचार</p><p><a href="#" onclick="staticPage('हाम्रो बारेमा')">हाम्रो बारेमा</a><a href="#" onclick="staticPage('सम्पर्क')">सम्पर्क</a><a href="#" onclick="staticPage('गोपनीयता नीति')">गोपनीयता नीति</a><a href="#" onclick="staticPage('विज्ञापन')">विज्ञापन</a></p><small>© <span id="year"></span> डेलि सेलिब्रेटी </small></footer>
+<div id="modalBg" class="modalbg" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div><div id="toast"></div>
+
+<!-- Firebase SDKs र Firestore Initialization -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA0UIpvEPLzyPCWxHohbkFN9JPYVC79SpU",
+    authDomain: "daily-selibreti-116f2.firebaseapp.com",
+    projectId: "daily-selibreti-116f2",
+    storageBucket: "daily-selibreti-116f2.firebasestorage.app",
+    messagingSenderId: "478081000563",
+    appId: "1:478081000563:web:95758e689a2f8ab8253606"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 'भिडियो' लाई 'चलचित्र' र 'फोटो' लाई 'जीवनशैली' मा परिवर्तन गरिएको छ
+  const categories=[["गृहपृष्ठ","🏠"],["मुख्य समाचार","📰"],["राजनीति","🏛️"],["राष्ट्रिय","🇳🇵"],["अन्तर्राष्ट्रिय","🌍"],["समाज","👥"],["अर्थतन्त्र","📈"],["खेलकुद","🏆"],["मनोरञ्जन","🎬"],["प्रविधि","💻"],["शिक्षा","🎓"],["स्वास्थ्य","❤️"],["चलचित्र","▶️"],["जीवनशैली","📷"],["Quiz","🧠"]];
+
+  let news = [];
+  let activeCategory="गृहपृष्ठ",limit=9,editingId=null;
+
+  let defaultAds = {
+    ad1: "📢 विज्ञापन स्लट १ (३ वटा ठूला समाचार पछि)",
+    ad2: "📢 विज्ञापन स्लट २ (४ वटा साना समाचार पछि)",
+    adMiddle: "📢 विज्ञापन स्लट ३ (मुख्य समाचार सूची माथि)",
+    adBottom: "📢 विज्ञापन स्लट ४ (Quiz सेक्सन माथि)"
+  };
+  let siteAds = JSON.parse(localStorage.getItem("np_ads") || JSON.stringify(defaultAds));
+
+  const $=id=>document.getElementById(id);
+  function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2200)}
+  function safe(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+  function dateText(d){return new Date(d).toLocaleDateString("ne-NP",{year:"numeric",month:"short",day:"numeric"})}
+
+  // Firestore बाट मात्र समाचार तान्ने
+  async function fetchNewsFromFirebase() {
+    try {
+      const querySnapshot = await getDocs(collection(db, "news"));
+      let firebaseNews = [];
+      querySnapshot.forEach((doc) => {
+        firebaseNews.push(doc.data());
+      });
+      news = firebaseNews.sort((a,b)=>b.date-a.date);
+    } catch (e) {
+      console.error("Error fetching from Firebase: ", e);
+      news = [];
+    }
+    renderAll();
+  }
+
+  window.init = function() {
+    $("year").textContent=new Date().getFullYear();
+    $("today").textContent=new Date().toLocaleDateString("ne-NP",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+    
+    const menu=categories.map(([c,ic])=>`<button onclick="selectCategory('${c}')">${ic} ${c}</button>`).join("");
+    $("desktopNav").innerHTML=menu;
+    $("mobileNav").innerHTML=categories.map(([c,ic])=>`<button class="draweritem" onclick="selectCategory('${c}')">${ic}　${c}</button>`).join("");
+    $("categories").innerHTML=categories.map(([c,ic])=>`<button class="cat" onclick="selectCategory('${c}')"><span>${ic}</span>${c}</button>`).join("");
+    
+    const breaking=localStorage.getItem("np_breaking");
+    if(breaking) $("breakingLine").textContent=breaking;
+    
+    fetchNewsFromFirebase();
+    renderAds();
+  }
+
+  function renderAds(){
+    if($("adSlotMiddle")) $("adSlotMiddle").innerHTML = siteAds.adMiddle || "";
+    if($("adSlotBottom")) $("adSlotBottom").innerHTML = siteAds.adBottom || "";
+  }
+
+  window.toggleDrawer=function(){$("drawer").classList.toggle("show");$("drawerBg").classList.toggle("show")}
+  window.selectCategory=function(c){
+    if(c==="Quiz"){window.location.href="quiz.html";return}
+    activeCategory=c;limit=9;
+    $("quickSearch").value="";
+    $("listTitle").textContent=c==="गृहपृष्ठ"?"मुख्य समाचार":c+" समाचार";
+    if($("drawer").classList.contains("show"))toggleDrawer();
+    renderNews();
+    window.scrollTo({top:0,behavior:"smooth"})
+  }
+  window.goHome=function(){selectCategory("गृहपृष्ठ")}
+  window.showAll=function(){selectCategory("गृहपृष्ठ")}
+  function renderAll(){renderHero();renderNews();renderPopular();renderAds();}
+
+  function renderHero(){
+    let arr=[...news].sort((a,b)=>b.date-a.date);
+    if(activeCategory !== "गृहपृष्ठ" && activeCategory !== "मुख्य समाचार") {
+      arr = news.filter(n => n.category === activeCategory);
+    }
+
+    const boxHtmlWithTag = (n, cls) => `
+      <div class="hero-box ${cls}" onclick="openArticle(${n.id})">
+        <img src="${safe(n.image||"https://placehold.co/900x500")}" onerror="this.src='https://placehold.co/900x500?text=News'">
+        <div class="hero-caption">
+          <span class="hero-tag">${safe(n.category)}</span>
+          <div>${safe(n.title)}</div>
+        </div>
+      </div>`;
+
+    let html = `
+      <div>
+        ${arr[0] ? boxHtmlWithTag(arr[0], 'box-mega') : '<div class="panel" style="text-align:center; padding:40px;">Network Error।</div>'}
+      </div>
+
+      <div style="background: linear-gradient(135deg, #123d70, #1b4f8a); color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-radius: 10px; padding: 20px 25px;">
+        <div>
+          <h3 style="margin: 0 0 5px 0; font-size: 22px;">🧠 दैनिक सामान्य ज्ञान Quiz</h3>
+          <p style="margin: 0; opacity: 0.9; font-size: 15px;">प्रश्नहरूको सही उत्तर दिएर आफ्नो बौद्धिक क्षमता जाँच्नुहोस्!</p>
+        </div>
+        <a href="quiz.html" class="primary" style="background: var(--red); color: white; padding: 12px 22px; border-radius: 8px; font-weight: 700; text-decoration: none; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" onclick="event.preventDefault(); window.location.href='quiz.html';">Quiz खेल्नुहोस् →</a>
+      </div>
+
+      <div class="hero-row-3" style="margin-top: 15px;">
+        ${arr[1] ? boxHtmlWithTag(arr[1], 'box-3-large') : ''}
+        ${arr[2] ? boxHtmlWithTag(arr[2], 'box-3-large') : ''}
+        ${arr[3] ? boxHtmlWithTag(arr[3], 'box-3-large') : ''}
+      </div>
+
+      <div class="ad-slot">${siteAds.ad1}</div>
+
+      <div class="hero-row-4">
+        ${arr[4] ? boxHtmlWithTag(arr[4], 'box-4-small') : ''}
+        ${arr[5] ? boxHtmlWithTag(arr[5], 'box-4-small') : ''}
+        ${arr[6] ? boxHtmlWithTag(arr[6], 'box-4-small') : ''}
+        ${arr[7] ? boxHtmlWithTag(arr[7], 'box-4-small') : ''}
+      </div>
+    `;
+    $("hero").innerHTML = html;
+  }
+
+  window.renderNews=function(){
+    let q=$("quickSearch").value.toLowerCase();
+    let arr=news.filter(n=>(activeCategory==="गृहपृष्ठ"||activeCategory==="मुख्य समाचार"||n.category===activeCategory)&&(`${n.title} ${n.summary} ${n.category}`).toLowerCase().includes(q));
+    arr.sort((a,b)=>$("sortSelect").value==="new"?b.date-a.date:a.date-b.date);
+    $("newsGrid").innerHTML=arr.slice(0,limit).map(cardHTML).join("")||"<div class='panel'>यस Category मा कुनै पनि समाचार भेटिएन।</div>";
+  }
+
+  function cardHTML(n){
+    return `<article class="card" onclick="openArticle(${n.id})"><img src="${safe(n.image||"https://placehold.co/600x350")}" onerror="this.src='https://placehold.co/600x350?text=News'"><div class="cardbody"><span class="tag">${safe(n.category)}</span><h3>${safe(n.title)}</h3><p class="summary">${safe(n.summary||"")}</p><div class="muted">${dateText(n.date)} · 👁 ${n.views||0}</div></div></article>`;
+  }
+
+  window.loadMore=function(){limit+=6;renderNews()}
+  function renderPopular(){$("popularGrid").innerHTML=[...news].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,3).map(cardHTML).join("") || "<p class='muted'>लोकप्रिय समाचार छैन।</p>"}
+
+  window.openArticle=function(id){
+    let n = news.find(x => x.id === id);
+    if(!n) return;
+    n.views = (n.views || 0) + 1;
+    setDoc(doc(db, "news", String(n.id)), n, { merge: true });
+    window.location.href = `red.html?id=${id}`;
+  }
+
+  window.showModal=function(){$("modalBg").classList.add("show")}
+  window.closeModal=function(){$("modalBg").classList.remove("show")}
+  
+  window.openSearch=function(){
+    $("modal").innerHTML=`<button class="close" onclick="closeModal()">✕</button><h2>समाचार खोज्नुहोस्</h2><input id="modalSearch" placeholder="शीर्षक वा Category लेख्नुहोस्" oninput="searchModal()"><div id="searchResults"></div>`;
+    showModal();
+  }
+  
+  window.searchModal=function(){
+    let q=$("modalSearch").value.toLowerCase();
+    $("searchResults").innerHTML=news.filter(n=>(n.title+" "+n.category+" "+n.summary).toLowerCase().includes(q)).slice(0,30).map(n=>`<div class="panel" onclick="openArticle(${n.id})">${safe(n.title)} <span class="muted">(${safe(n.category)})</span></div>`).join("") || "<p class='muted'>कोही परिणाम भेटिएन।</p>";
+  }
+  
+  window.staticPage=function(title){
+    $("modal").innerHTML=`<button class="close" onclick="closeModal()">✕</button><h2>${title}</h2><p>डेलि सेलिब्रेटीमा स्वागत छ। यस पृष्ठको सामग्री Admin वा वेबसाइट सञ्चालकले वास्तविक जानकारीअनुसार अद्यावधिक गर्नुपर्छ।</p>`;
+    showModal();
+  }
+
+  window.openAdmin=function(){
+    const pin=prompt("Demo Admin PIN लेख्नुहोस् (default: 1234)");
+    if(pin!=="1234") return toast("PIN मिलेन");
+    adminPanel();
+  }
+
+  window.adminPanel=function(){
+    let totalViews=news.reduce((s,n)=>s+(n.views||0),0);
+    $("modal").innerHTML=`
+      <button class="close" onclick="closeModal()">✕</button>
+      <h2>Admin Dashboard</h2>
+      <div class="stats">
+        <div class="stat"><b>${news.length}</b>समाचार</div>
+        <div class="stat"><b>${totalViews}</b>कुल Views</div>
+        <div class="stat"><b>${news.filter(n=>n.status!=="draft").length}</b>प्रकाशित</div>
+      </div>
+      
+      <hr>
+      <h3>📢 विज्ञापन (Ads) व्यवस्थापन</h3>
+      <form onsubmit="saveAdsSettings(event)">
+        <label>Ad Slot १ (समाचार बक्सहरू बीचको)</label>
+        <textarea id="adCode1">${safe(siteAds.ad1)}</textarea>
+        
+        <label>Ad Slot २ (प्रयोग नभएको)</label>
+        <textarea id="adCode2" style="display:none;">${safe(siteAds.ad2)}</textarea>
+        
+        <label>Ad Slot ३ (मुख्य समाचार सूची माथि)</label>
+        <textarea id="adCodeMiddle">${safe(siteAds.adMiddle)}</textarea>
+        
+        <label>Ad Slot ४ (Quiz सेक्सन माथि)</label>
+        <textarea id="adCodeBottom">${safe(siteAds.adBottom)}</textarea>
+        
+        <button class="primary" type="submit" style="margin-top:10px">एड्स कोड Save गर्नुहोस्</button>
+      </form>
+      <hr>
+
+      <div class="section-head"><h2 id="formHeading">समाचार थप्नुहोस्</h2></div>
+      <form id="newsForm" onsubmit="saveNews(event)">
+        <label>Category</label><select id="fCat">${categories.filter(c=>!["गृहपृष्ठ","Quiz"].includes(c[0])).map(c=>`<option>${c[0]}</option>`).join("")}</select>
+        <label>शीर्षक</label><input id="fTitle" required maxlength="180">
+        <label>छोटो विवरण</label><textarea id="fSummary"></textarea>
+        <label>पूरा समाचार</label><textarea id="fBody" required></textarea>
+        <label>फोटो URL (वा ब्लगर HTML कोड)</label><input id="fImage" placeholder="https://...">
+        <label>स्थिति</label><select id="fStatus"><option value="published">तुरुन्त प्रकाशित</option><option value="draft">Draft मा राख्ने</option></select>
+        <div class="actions"><button class="primary" type="submit">Save News</button><button type="button" class="smallbtn" onclick="resetForm()">नयाँ Form</button></div>
+      </form>
+      <h3>समाचार व्यवस्थापन</h3>
+      <input id="adminFilter" placeholder="समाचार खोज्नुहोस्..." oninput="adminList()">
+      <div id="adminList"></div>
+      <hr>
+      <h3>Breaking News</h3>
+      <input id="breakingInput" value="${safe(localStorage.getItem("np_breaking")||"")}"><button class="primary" onclick="saveBreaking()">Update Breaking</button>
+    `;
+    showModal();
+    adminList();
+  }
+
+  window.saveAdsSettings=function(e){
+    e.preventDefault();
+    siteAds.ad1 = $("adCode1").value;
+    siteAds.adMiddle = $("adCodeMiddle").value;
+    siteAds.adBottom = $("adCodeBottom").value;
+    localStorage.setItem("np_ads", JSON.stringify(siteAds));
+    renderAll();
+    toast("विज्ञापन कोड सफलतापूर्वक Update भयो!");
+  }
+
+  window.saveNews=async function(e){
+    e.preventDefault();
+    let rawImageInput = $("fImage").value.trim();
+    let finalImageUrl = rawImageInput;
+    if(rawImageInput.includes("<img") && rawImageInput.includes("src=")) {
+      let srcMatch = rawImageInput.match(/src="([^"]+)"/) || rawImageInput.match(/src='([^']+)'/);
+      if(srcMatch && srcMatch[1]) { finalImageUrl = srcMatch[1]; }
+    }
+
+    let newsId = editingId || Date.now();
+    let n={
+      id: newsId,
+      category: $("fCat").value,
+      title: $("fTitle").value.trim(),
+      summary: $("fSummary").value.trim(),
+      body: $("fBody").value.trim(),
+      image: finalImageUrl,
+      date: editingId ? (news.find(x=>x.id===editingId)?.date||Date.now()) : Date.now(),
+      views: editingId ? (news.find(x=>x.id===editingId)?.views||0) : 0,
+      likes: editingId ? (news.find(x=>x.id===editingId)?.likes||0) : 0,
+      status: $("fStatus").value
+    };
+
+    try {
+      await setDoc(doc(db, "news", String(newsId)), n);
+      
+      if(editingId){
+        let i=news.findIndex(x=>x.id===editingId);
+        if(i>=0) news[i]=n;
+      } else {
+        news.unshift(n);
+      }
+      
+      editingId=null;
+      renderAll();
+      adminPanel();
+      toast("समाचार फायरस्टोर (Firebase) मा सुरक्षित भयो!");
+    } catch (err) {
+      console.error("Error saving to Firestore: ", err);
+      toast("फायरस्टोरमा सेभ गर्न असफल!");
+    }
+  }
+
+  window.resetForm=function(){editingId=null;$("newsForm").reset();$("formHeading").textContent="समाचार थप्नुहोस्"}
+  
+  window.adminList=function(){
+    let q=($("adminFilter")?.value||"").toLowerCase();
+    if(!$("adminList"))return;
+    $("adminList").innerHTML=news.filter(n=>n.title.toLowerCase().includes(q)).map(n=>`
+      <div class="adminrow">
+        <div><b>${safe(n.title)}</b><div class="muted">${safe(n.category)} · ${n.status==="draft"?"Draft":"प्रकाशित"}</div></div>
+        <div><button class="smallbtn" onclick="editNews(${n.id})">Edit</button><button class="danger" onclick="deleteNews(${n.id})">Delete</button></div>
+      </div>
+    `).join("") || "<p class='muted'>कुनै समाचार छैन।</p>";
+  }
+
+  window.editNews=function(id){
+    let n=news.find(x=>x.id===id);
+    if(!n)return;
+    editingId=id;
+    $("fCat").value=n.category;
+    $("fTitle").value=n.title;
+    $("fSummary").value=n.summary||"";
+    $("fBody").value=n.body||"";
+    $("fImage").value=n.image||"";
+    $("fStatus").value=n.status||"published";
+    $("formHeading").textContent="समाचार सम्पादन";
+    $("newsForm").scrollIntoView({behavior:"smooth"});
+  }
+
+  window.deleteNews=async function(id){
+    if(!confirm("यो समाचार हटाउने?"))return;
+    try {
+      await deleteDoc(doc(db, "news", String(id)));
+      news=news.filter(n=>n.id!==id);
+      renderAll();
+      adminList();
+      toast("समाचार हटाइयो!");
+    } catch(err) {
+      console.error("Error deleting: ", err);
+      toast("हटाउन असफल भयो!");
+    }
+  }
+
+  window.saveBreaking=function(){
+    localStorage.setItem("np_breaking",$("breakingInput").value);
+    $("breakingLine").textContent=$("breakingInput").value;
+    toast("Breaking News Update भयो");
+  }
+
+  init();
+</script>
+</body>
+</html>
 
