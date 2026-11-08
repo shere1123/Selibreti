@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advanced Admin Dashboard | डेलि सेलिब्रेटी</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap');
+:root{--blue:#123d70;--red:#d92735;--ink:#172235;--muted:#687386;--line:#e6eaf0;--bg:#f4f6f9}
+* { box-sizing: border-box; scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Mukta', sans-serif; padding: 20px; }
+.wrap { max-width: 950px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
+
+/* ३ रेखा मेनु बटन स्टाइल */
+.menubtn {
+  background: var(--blue);
+  color: white;
+  border: 0;
+  font-size: 22px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* साइडबार ड्रअर (Drawer Menu) स्टाइल */
+.drawerbg { position: fixed; inset: 0; background: rgba(7, 22, 41, 0.6); z-index: 50; display: none; }
+.drawerbg.show { display: block; }
+.drawer {
+  position: fixed; z-index: 51; top: 0; bottom: 0; left: -280px; width: 270px;
+  background: white; overflow: auto; transition: 0.25s; box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+.drawer.show { left: 0; }
+.drawerhead { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 15px; }
+.draweritem {
+  display: block; width: 100%; border: 0; background: #f8f9fc; text-align: left;
+  padding: 12px 15px; font-weight: 700; color: var(--blue); border-radius: 6px;
+  margin-bottom: 8px; cursor: pointer; text-decoration: none; font-size: 15px;
+}
+.draweritem:hover { background: var(--blue); color: white; }
+
+header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--line); padding-bottom: 15px; margin-bottom: 20px; }
+.brand { font-size: 24px; font-weight: 800; color: var(--blue); text-decoration: none; }
+.brand b { color: var(--red); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+.stat { background: #eef3f9; padding: 15px; border-radius: 8px; text-align: center; font-size: 16px; color: var(--blue); }
+.stat b { display: block; font-size: 24px; color: var(--ink); }
+.section-head { margin: 30px 0 15px; border-left: 5px solid var(--red); padding-left: 10px; font-size: 18px; font-weight: 700; }
+label { display: block; margin-top: 12px; font-weight: 600; font-size: 14px; }
+input, textarea, select { border: 1px solid #d8dee8; border-radius: 7px; padding: 11px; background: white; color: var(--ink); width: 100%; margin-top: 5px; font-family: 'Mukta', sans-serif; font-size: 15px; }
+textarea { min-height: 120px; resize: vertical; }
+
+/* टेक्स्ट हाइलाइट र फर्म्याटिङ टूलबार */
+.toolbar-formatting { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.fmt-btn { background: #eef3f9; border: 1px solid #cbd5e1; padding: 5px 10px; border-radius: 4px; font-weight: 700; font-size: 13px; color: var(--blue); cursor: pointer; }
+.fmt-btn:hover { background: var(--blue); color: white; }
+
+.primary { background: var(--blue); color: white; border: 0; padding: 12px 20px; border-radius: 7px; font-weight: 700; cursor: pointer; margin-top: 15px; font-family: 'Mukta', sans-serif; font-size: 15px; }
+.danger { background: var(--red); color: white; border: 0; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.smallbtn { border: 1px solid var(--line); background: #f7f9fc; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: 600; margin-right: 5px; }
+.adminrow { display: flex; justify-content: space-between; align-items: center; background: #f9fbff; border: 1px solid var(--line); padding: 12px; border-radius: 8px; margin-bottom: 10px; }
+.muted { color: var(--muted); font-size: 13px; }
+.actions { display: flex; gap: 10px; align-items: center; }
+#toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: #14263e; color: white; padding: 10px 16px; border-radius: 8px; z-index: 100; display: none; }
+.back-link { color: var(--blue); font-weight: 700; text-decoration: none; display: inline-block; }
+</style>
+</head>
+<body>
+
+<!-- साइडबार मेनु र ब्याकग्राउन्ड -->
+<div class="drawerbg" id="drawerBg" onclick="toggleDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawerhead">
+    <b class="brand">Admin मेनु</b>
+    <button class="menubtn" onclick="toggleDrawer()" style="font-size:16px; padding:4px 8px;">✕</button>
+  </div>
+  <a href="#addNewsSection" class="draweritem" onclick="toggleDrawer()">➕ समाचार थप्नुहोस्</a>
+  <a href="#manageNewsSection" class="draweritem" onclick="toggleDrawer()">📋 समाचार सूची</a>
+  <a href="#adsSection" class="draweritem" onclick="toggleDrawer()">📢 विज्ञापन व्यवस्थापन</a>
+  <a href="#breakingSection" class="draweritem" onclick="toggleDrawer()">⚡ ब्रेकिङ न्युज</a>
+  <a href="index.html" class="draweritem" style="color:var(--red);" onclick="toggleDrawer()">🏠 गृहपृष्ठमा फर्कनुहोस्</a>
+</aside>
+
+<div class="wrap">
+  <header>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <button class="menubtn" onclick="toggleDrawer()">☰</button>
+      <a class="brand" href="index.html">डेलि <b>सेलिब्रेटी</b></a>
+    </div>
+    <div style="display:flex; align-items:center; gap:15px;">
+      <button id="logoutBtn" class="danger" style="display:none;" onclick="logoutAdmin()">लगआउट</button>
+      <a href="index.html" class="back-link">गृहपृष्ठ →</a>
+    </div>
+  </header>
+
+  <!-- Firebase Authentication Login सेक्सन -->
+  <div id="loginSection">
+    <h2>Firebase Admin Login</h2>
+    <p>कृपया एडमिन प्यानल खोल्न आफ्नो Firebase इमेल र पासवर्ड प्रविष्ट गर्नुहोस्:</p>
+    
+    <label>इमेल ठेगाना (Email)</label>
+    <input type="email" id="adminEmail" placeholder="admin@gmail.com">
+    
+    <label>पासवर्ड (Password)</label>
+    <input type="password" id="adminPassword" placeholder="••••••••">
+    
+    <button class="primary" onclick="loginWithFirebase()">Firebase मार्फत लगइन गर्नुहोस्</button>
+  </div>
+
+  <!-- मुख्य ड्यासबोर्ड सेक्सन (लगइन भएपछि मात्र देखिने) -->
+  <div id="dashboardSection" style="display:none;">
+
+    <div class="stats" id="statsBox"></div>
+    
+    <!-- समाचार थप्ने सेक्सन -->
+    <div id="addNewsSection" class="section-head" style="margin-top:10px;">समाचार थप्नुहोस् वा सम्पादन गर्नुहोस्</div>
+    <form id="newsForm" onsubmit="saveNews(event)">
+      <label>Category</label>
+      <select id="fCat">
+        <option value="मुख्य समाचार">मुख्य समाचार</option>
+        <option value="राजनीति">राजनीति</option>
+        <option value="राष्ट्रिय">राष्ट्रिय</option>
+        <option value="अन्तर्राष्ट्रिय">अन्तर्राष्ट्रिय</option>
+        <option value="समाज">समाज</option>
+        <option value="अर्थतन्त्र">अर्थतन्त्र</option>
+        <option value="खेलकुद">खेलकुद</option>
+        <option value="मनोरञ्जन">मनोरञ्जन</option>
+        <option value="प्रविधि">प्रविधि</option>
+        <option value="शिक्षा">शिक्षा</option>
+        <option value="स्वास्थ्य">स्वास्थ्य</option>
+        <option value="चलचित्र">चलचित्र</option>
+        <option value="जीवनशैली">जीवनशैली</option>
+      </select>
+      
+      <label>शीर्षक</label><input id="fTitle" required maxlength="180">
+      
+      <label>छोटो विवरण (Summary)</label><textarea id="fSummary" style="min-height:70px;"></textarea>
+      
+      <label>पूरा समाचार (Text & Ads Setup)</label>
+      <div class="toolbar-formatting">
+        <button type="button" class="fmt-btn" onclick="insertTag('<b>', '</b>')"><b>Bold</b></button>
+        <button type="button" class="fmt-btn" onclick="insertTag('<i>', '</i>')"><i>Italic</i></button>
+        <button type="button" class="fmt-btn" onclick="insertTag('<mark style=\'background:yellow;\'>', '</mark>')">🟡 Highlight</button>
+        <button type="button" class="fmt-btn" onclick="insertTag('<blockquote>', '</blockquote>')">💬 Quote</button>
+        <button type="button" class="fmt-btn" onclick="insertTag('<div style=\'font-size:20px; font-weight:bold;\'>', '</div>')">🔍 ठूलो अक्षर</button>
+      </div>
+      <textarea id="fBody" required placeholder="यहाँ समाचारको मुख्य विवरण लेख्नुहोस्..."></textarea>
+      
+      <label>फोटो URL (यहाँ सिधै फोटोको लिङ्क वा Blogger को HTML फोटो कोड राख्न सक्नुहुन्छ)</label>
+      <input id="fImage" placeholder="https://... वा ब्लगरको फोटो HTML कोड यहाँ टाँस्नुहोस्">
+      
+      <label>स्थिति</label>
+      <select id="fStatus">
+        <option value="published">तुरुन्त प्रकाशित</option>
+        <option value="draft">Draft मा राख्ने</option>
+      </select>
+      
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="primary" type="submit" style="margin-top:0;" id="formBtnText">Save News</button>
+        <button type="button" class="smallbtn" onclick="resetForm()">नयाँ Form</button>
+      </div>
+    </form>
+
+    <hr style="border:0;border-top:1px solid var(--line);margin:30px 0">
+
+    <!-- समाचार व्यवस्थापन सेक्सन -->
+    <div id="manageNewsSection" class="section-head">समाचार व्यवस्थापन र सूची</div>
+    <input id="adminFilter" placeholder="समाचार खोज्नुहोस्..." oninput="adminList()">
+    <div id="adminList" style="margin-top:15px;"></div>
+
+    <hr style="border:0;border-top:1px solid var(--line);margin:30px 0">
+
+    <!-- विज्ञापन (Ads) व्यवस्थापन सेक्सन -->
+    <div id="adsSection" class="section-head">📢 विज्ञापन (Ads) व्यवस्थापन - सबै प्रकारका Ads स्लटहरू</div>
+    <form onsubmit="saveAdsSettings(event)">
+      <label>१. Header / Top Ad (वेबसाइटको माथिल्लो भाग)</label>
+      <textarea id="adCodeHeader" placeholder="Adsterra, Google AdSense वा अन्य Banner कोड यहाँ राख्नुहोस्..."></textarea>
+      
+      <label>२. Ad Slot १ (होमपेज - ३ ठूला समाचार पछि)</label>
+      <textarea id="adCode1"></textarea>
+      
+      <label>३. Ad Slot २ (होमपेज - ४ साना समाचार पछि)</label>
+      <textarea id="adCode2"></textarea>
+      
+      <label>४. In-Article Ad (समाचार विवरण पृष्ठको बीच भागमा देखा पर्ने)</label>
+      <textarea id="adCodeInArticle" placeholder="समाचार पढ्दा बीचमा देखा पर्ने विज्ञापन कोड..."></textarea>
+      
+      <label>५. Ad Slot ३ (मुख्य समाचार सूची माथि)</label>
+      <textarea id="adCodeMiddle"></textarea>
+      
+      <label>६. Ad Slot ४ (Quiz सेक्सन माथि)</label>
+      <textarea id="adCodeBottom"></textarea>
+      
+      <button class="primary" type="submit">सबै एड्स कोडहरू Save गर्नुहोस्</button>
+    </form>
+
+    <hr style="border:0;border-top:1px solid var(--line);margin:30px 0">
+
+    <!-- ब्रेकिङ न्युज सेक्सन -->
+    <div id="breakingSection" class="section-head">Breaking News व्यवस्थापन</div>
+    <input id="breakingInput" placeholder="Breaking news यहाँ लेख्नुहोस्...">
+    <button class="primary" onclick="saveBreaking()">Update Breaking</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- Firebase SDKs र Authentication / Firestore Initialization -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA0UIpvEPLzyPCWxHohbkFN9JPYVC79SpU",
+    authDomain: "daily-selibreti-116f2.firebaseapp.com",
+    projectId: "daily-selibreti-116f2",
+    storageBucket: "daily-selibreti-116f2.firebasestorage.app",
+    messagingSenderId: "478081000563",
+    appId: "1:478081000563:web:95758e689a2f8ab8253606"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const $=id=>document.getElementById(id);
+  function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2200)}
+  function safe(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+  let news = [];
+  let editingId = null;
+
+  let defaultAds = {
+    header: "📢 Header Ad (माथिल्लो विज्ञापन)",
+    ad1: "📢 विज्ञापन स्लट १ (३ वटा ठूला समाचार पछि)",
+    ad2: "📢 विज्ञापन स्लट २ (४ वटा साना समाचार पछि)",
+    inArticle: "📢 In-Article Ad (समाचारको बीचमा देखिने)",
+    adMiddle: "📢 विज्ञापन स्लट ३ (मुख्य समाचार सूची माथि)",
+    adBottom: "📢 विज्ञापन स्लट ४ (Quiz सेक्सन माथि)"
+  };
+  let siteAds = JSON.parse(localStorage.getItem("np_ads") || JSON.stringify(defaultAds));
+
+  // Firebase Auth मार्फत लगइन गर्ने फंक्सन
+  window.loginWithFirebase = function() {
+    const email = $("adminEmail").value.trim();
+    const password = $("adminPassword").value;
+
+    if(!email || !password) {
+      toast("कृपया इमेल र पासवर्ड दुवै लेख्नुहोस्!");
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        toast("सफलतापूर्वक लगइन भयो!");
+      })
+      .catch((error) => {
+        toast("लगइन असफल: " + error.message);
+      });
+  }
+
+  // लगआउट गर्ने फंक्सन
+  window.logoutAdmin = function() {
+    signOut(auth).then(() => {
+      toast("तपाईं सफलतापूर्वक बाहिरिनुभयो (Logged out)");
+    }).catch((error) => {
+      toast("त्रुटि: " + error.message);
+    });
+  }
+
+  // प्रयोगकर्ताको लगइन अवस्था निगरानी गर्ने
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      $("loginSection").style.display = "none";
+      $("dashboardSection").style.display = "block";
+      $("logoutBtn").style.display = "inline-block";
+      await fetchNewsFromFirebase();
+      loadAdminData();
+    } else {
+      $("loginSection").style.display = "block";
+      $("dashboardSection").style.display = "none";
+      $("logoutBtn").style.display = "none";
+    }
+  });
+
+  // Firestore बाट समाचार तान्ने
+  async function fetchNewsFromFirebase() {
+    try {
+      const querySnapshot = await getDocs(collection(db, "news"));
+      let firebaseNews = [];
+      querySnapshot.forEach((doc) => {
+        firebaseNews.push(doc.data());
+      });
+      news = firebaseNews.sort((a,b)=>b.date-a.date);
+    } catch (e) {
+      console.error("Error fetching news: ", e);
+      news = [];
+    }
+  }
+
+  window.toggleDrawer = function(){
+    $("drawer").classList.toggle("show");
+    $("drawerBg").classList.toggle("show");
+  }
+
+  window.loadAdminData = function(){
+    let totalViews = news.reduce((s,n)=>s+(n.views||0),0);
+    $("statsBox").innerHTML = `
+      <div class="stat"><b>${news.length}</b>समाचार</div>
+      <div class="stat"><b>${totalViews}</b>कुल Views</div>
+      <div class="stat"><b>${news.filter(n=>n.status!=="draft").length}</b>प्रकाशित</div>
+    `;
+
+    $("adCodeHeader").value = siteAds.header || "";
+    $("adCode1").value = siteAds.ad1 || "";
+    $("adCode2").value = siteAds.ad2 || "";
+    $("adCodeInArticle").value = siteAds.inArticle || "";
+    $("adCodeMiddle").value = siteAds.adMiddle || "";
+    $("adCodeBottom").value = siteAds.adBottom || "";
+
+    $("breakingInput").value = localStorage.getItem("np_breaking") || "";
+    adminList();
+  }
+
+  window.saveAdsSettings = function(e){
+    e.preventDefault();
+    siteAds.header = $("adCodeHeader").value;
+    siteAds.ad1 = $("adCode1").value;
+    siteAds.ad2 = $("adCode2").value;
+    siteAds.inArticle = $("adCodeInArticle").value;
+    siteAds.adMiddle = $("adCodeMiddle").value;
+    siteAds.adBottom = $("adCodeBottom").value;
+    
+    localStorage.setItem("np_ads", JSON.stringify(siteAds));
+    toast("सबै विज्ञापन कोडहरू सफलतापूर्वक Update भए!");
+  }
+
+  window.insertTag = function(openTag, closeTag){
+    let textarea = $("fBody");
+    let start = textarea.selectionStart;
+    let end = textarea.selectionEnd;
+    let text = textarea.value;
+    let selectedText = text.substring(start, end);
+    let replacement = openTag + selectedText + closeTag;
+    textarea.value = text.substring(0, start) + replacement + text.substring(end);
+    textarea.focus();
+    textarea.setSelectionRange(start + openTag.length, end + openTag.length);
+  }
+
+  window.saveNews = async function(e){
+    e.preventDefault();
+    
+    let rawImageInput = $("fImage").value.trim();
+    let finalImageUrl = rawImageInput;
+
+    if(rawImageInput.includes("<img") && rawImageInput.includes("src=")) {
+      let srcMatch = rawImageInput.match(/src="([^"]+)"/) || rawImageInput.match(/src='([^']+)'/);
+      if(srcMatch && srcMatch[1]) {
+        finalImageUrl = srcMatch[1];
+      }
+    }
+
+    let newsId = editingId || Date.now();
+    let n = {
+      id: newsId,
+      category: $("fCat").value,
+      title: $("fTitle").value.trim(),
+      summary: $("fSummary").value.trim(),
+      body: $("fBody").value.trim(), 
+      image: finalImageUrl,
+      date: editingId ? (news.find(x=>x.id===editingId)?.date || Date.now()) : Date.now(),
+      views: editingId ? (news.find(x=>x.id===editingId)?.views || 0) : 0,
+      likes: editingId ? (news.find(x=>x.id===editingId)?.likes || 0) : 0,
+      status: $("fStatus").value
+    };
+
+    try {
+      await setDoc(doc(db, "news", String(newsId)), n);
+
+      if(editingId){
+        let i = news.findIndex(x=>x.id===editingId);
+        if(i>=0) news[i] = n;
+      } else {
+        news.unshift(n);
+      }
+
+      resetForm();
+      loadAdminData();
+      toast("समाचार सफलतापूर्वक फायरस्टोरमा सुरक्षित भयो!");
+    } catch (err) {
+      console.error("Error saving news: ", err);
+      toast("समाचार सेभ गर्न असफल!");
+    }
+  }
+
+  window.resetForm = function(){
+    editingId = null;
+    $("newsForm").reset();
+    $("formBtnText").textContent = "Save News";
+  }
+
+  window.adminList = function(){
+    let q = ($("adminFilter")?.value||"").toLowerCase();
+    $("adminList").innerHTML = news.filter(n=>n.title.toLowerCase().includes(q)).map(n=>`
+      <div class="adminrow">
+        <div>
+          <b>${safe(n.title)}</b>
+          <div class="muted">${safe(n.category)} · ${n.status==="draft"?"Draft":"प्रकाशित"} · 👁 ${n.views||0}</div>
+        </div>
+        <div class="actions">
+          <button class="smallbtn" onclick="editNews(${n.id})">Edit</button>
+          <button class="danger" onclick="deleteNews(${n.id})">Delete</button>
+        </div>
+      </div>
+    `).join("") || "<p class='muted'>कुनै समाचार भेटिएन।</p>";
+  }
+
+  window.editNews = function(id){
+    let n = news.find(x=>x.id===id);
+    if(!n) return;
+    editingId = id;
+    $("fCat").value = n.category;
+    $("fTitle").value = n.title;
+    $("fSummary").value = n.summary || "";
+    $("fBody").value = n.body || "";
+    $("fImage").value = n.image || "";
+    $("fStatus").value = n.status || "published";
+    $("formBtnText").textContent = "Update News";
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  window.deleteNews = async function(id){
+    if(!confirm("के तपाई यो समाचार हटाउन चाहनुहुन्छ?")) return;
+    try {
+      await deleteDoc(doc(db, "news", String(id)));
+      news = news.filter(n=>n.id!==id);
+      loadAdminData();
+      toast("समाचार सफलतापूर्वक हटाइयो!");
+    } catch (err) {
+      console.error("Error deleting news: ", err);
+      toast("हटाउन असफल भयो!");
+    }
+  }
+
+  window.saveBreaking = function(){
+    localStorage.setItem("np_breaking", $("breakingInput").value);
+    toast("Breaking News सफलतापूर्वक Update भयो!");
+  }
+</script>
+</body>
+</html>
