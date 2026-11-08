@@ -38,8 +38,10 @@ nav{background:var(--blue);display:flex;justify-content:center;flex-wrap:wrap;pa
 /* सबै बक्सहरूमा Category ट्याग देखाउने स्टाइल */
 .hero-tag { display: inline-block; background: var(--red); color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; margin-bottom: 6px; position: relative; z-index: 2; }
 
-/* विज्ञापन बक्सको डिजाइन */
+/* विज्ञापन बक्स खाली हुँदा स्वतः लुक्ने स्टाइल */
+.ad-slot:empty { display: none; }
 .ad-slot { background: #eef3f9; border: 2px dashed #cbd5e1; border-radius: 10px; padding: 15px; text-align: center; color: var(--muted); font-weight: 600; margin: 15px 0; overflow: hidden; }
+.ad-slot img, .ad-slot iframe { max-width: 100% !important; height: auto !important; display: block; margin: 0 auto; }
 
 .section-head{display:flex;justify-content:space-between;align-items:center;margin:23px 0 12px;border-left:5px solid var(--red);padding-left:10px}.section-head h2{font-size:20px;margin:0}.section-head button{border:0;background:none;color:var(--blue);font-weight:700}
 .categories{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}.cat{border:1px solid var(--line);background:white;border-radius:8px;padding:12px 5px;color:var(--blue);font-weight:700}.cat span{display:block;font-size:22px;margin-bottom:5px}
@@ -71,13 +73,13 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
 </header>
 <nav id="desktopNav"></nav>
 <div class="drawerbg" id="drawerBg" onclick="toggleDrawer()"></div><aside class="drawer" id="drawer"><div class="drawerhead"><b class="brand">समाचार मेनु</b><button class="iconbtn" onclick="toggleDrawer()">✕</button></div><div id="mobileNav"></div></aside>
-<div class="breaking"><strong>BREAKING</strong><marquee id="breakingLine">तपाइहरुलाइ डेलि सेलिब्रेटीमा समाचारमा स्वागत छ । यसमा तपाइहरुले लोकसेवाको Qize खेल्न सक्नुहुन्छ। आफ्नो तयारी गर्न सक्नु हुन्छ । तेसैले आफ्नो दिमागलाई सधै चेक गर्न नभुल्नु होला । ।</marquee></div>
+<div class="breaking"><strong>BREAKING</strong><marquee id="breakingLine">डेलि सेलिब्रेटीमा स्वागत छ।</marquee></div>
 <main class="wrap">
  
- <!-- यहाँ पहिलो ठूलो समाचार बक्स, त्यसपछि Quiz बक्स र अन्य बक्सहरू सही क्रममा रेन्डर हुनेछन् -->
+ <!-- Hero सेक्सन (Ad Slot १ यहाँ मात्र देखिन्छ) -->
  <section class="custom-hero" id="hero"></section>
 
- <!-- अतिरिक्त विज्ञापन ठाउँ (तल मुख्य समाचार सूची माथि) -->
+ <!-- Ad Slot ३ (मुख्य समाचार सूची माथि) -->
  <div id="adSlotMiddle" class="ad-slot"></div>
 
  <div class="section-head"><h2>समाचारका Category</h2></div><section class="categories" id="categories"></section>
@@ -85,7 +87,7 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
  <div class="toolbar"><input id="quickSearch" placeholder="समाचार खोज्नुहोस्..." oninput="renderNews()"><select id="sortSelect" onchange="renderNews()" style="max-width:150px"><option value="new">नयाँ पहिले</option><option value="old">पुरानो पहिले</option></select></div>
  <section class="grid" id="newsGrid"></section><button class="primary" style="display:block;margin:18px auto" onclick="loadMore()">थप समाचार</button>
  
- <!-- थप विज्ञापन ठाउँ -->
+ <!-- Ad Slot ४ (Quiz सेक्सन माथि) -->
  <div id="adSlotBottom" class="ad-slot"></div>
 
  <div class="section-head"><h2>लोकप्रिय समाचार</h2></div><section class="grid" id="popularGrid"></section>
@@ -96,7 +98,7 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
 <!-- Firebase SDKs र Firestore Initialization -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, getDoc, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA0UIpvEPLzyPCWxHohbkFN9JPYVC79SpU",
@@ -110,37 +112,41 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // 'भिडियो' लाई 'चलचित्र' र 'फोटो' लाई 'जीवनशैली' मा परिवर्तन गरिएको छ
   const categories=[["गृहपृष्ठ","🏠"],["मुख्य समाचार","📰"],["राजनीति","🏛️"],["राष्ट्रिय","🇳🇵"],["अन्तर्राष्ट्रिय","🌍"],["समाज","👥"],["अर्थतन्त्र","📈"],["खेलकुद","🏆"],["मनोरञ्जन","🎬"],["प्रविधि","💻"],["शिक्षा","🎓"],["स्वास्थ्य","❤️"],["चलचित्र","▶️"],["जीवनशैली","📷"],["Quiz","🧠"]];
 
   let news = [];
+  let siteAds = {};
+  let breakingText = "";
   let activeCategory="गृहपृष्ठ",limit=9,editingId=null;
-
-  let defaultAds = {
-    ad1: "📢 विज्ञापन स्लट १ (३ वटा ठूला समाचार पछि)",
-    ad2: "📢 विज्ञापन स्लट २ (४ वटा साना समाचार पछि)",
-    adMiddle: "📢 विज्ञापन स्लट ३ (मुख्य समाचार सूची माथि)",
-    adBottom: "📢 विज्ञापन स्लट ४ (Quiz सेक्सन माथि)"
-  };
-  let siteAds = JSON.parse(localStorage.getItem("np_ads") || JSON.stringify(defaultAds));
 
   const $=id=>document.getElementById(id);
   function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2200)}
   function safe(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
   function dateText(d){return new Date(d).toLocaleDateString("ne-NP",{year:"numeric",month:"short",day:"numeric"})}
 
-  // Firestore बाट मात्र समाचार तान्ने
-  async function fetchNewsFromFirebase() {
+  // Firebase बाट सबै डेटा (समाचार, विज्ञापन, ब्रेकिङ न्युज) एकैपटक ल्याउने
+  async function fetchAllFromFirebase() {
     try {
       const querySnapshot = await getDocs(collection(db, "news"));
       let firebaseNews = [];
-      querySnapshot.forEach((doc) => {
-        firebaseNews.push(doc.data());
+      querySnapshot.forEach((docSnap) => {
+        firebaseNews.push(docSnap.data());
       });
       news = firebaseNews.sort((a,b)=>b.date-a.date);
+
+      const adsDoc = await getDoc(doc(db, "settings", "ads"));
+      if (adsDoc.exists()) {
+        siteAds = adsDoc.data();
+      }
+
+      const breakingDoc = await getDoc(doc(db, "settings", "breaking"));
+      if (breakingDoc.exists()) {
+        breakingText = breakingDoc.data().text || "";
+        $("breakingLine").textContent = breakingText;
+      }
+
     } catch (e) {
       console.error("Error fetching from Firebase: ", e);
-      news = [];
     }
     renderAll();
   }
@@ -154,16 +160,16 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
     $("mobileNav").innerHTML=categories.map(([c,ic])=>`<button class="draweritem" onclick="selectCategory('${c}')">${ic}　${c}</button>`).join("");
     $("categories").innerHTML=categories.map(([c,ic])=>`<button class="cat" onclick="selectCategory('${c}')"><span>${ic}</span>${c}</button>`).join("");
     
-    const breaking=localStorage.getItem("np_breaking");
-    if(breaking) $("breakingLine").textContent=breaking;
-    
-    fetchNewsFromFirebase();
-    renderAds();
+    fetchAllFromFirebase();
   }
 
   function renderAds(){
-    if($("adSlotMiddle")) $("adSlotMiddle").innerHTML = siteAds.adMiddle || "";
-    if($("adSlotBottom")) $("adSlotBottom").innerHTML = siteAds.adBottom || "";
+    if($("adSlotMiddle")) {
+      $("adSlotMiddle").innerHTML = siteAds.adMiddle || "";
+    }
+    if($("adSlotBottom")) {
+      $("adSlotBottom").innerHTML = siteAds.adBottom || "";
+    }
   }
 
   window.toggleDrawer=function(){$("drawer").classList.toggle("show");$("drawerBg").classList.toggle("show")}
@@ -197,7 +203,7 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
 
     let html = `
       <div>
-        ${arr[0] ? boxHtmlWithTag(arr[0], 'box-mega') : '<div class="panel" style="text-align:center; padding:40px;">Network Error।</div>'}
+        ${arr[0] ? boxHtmlWithTag(arr[0], 'box-mega') : '<div class="panel" style="text-align:center; padding:40px;">समाचार उपलब्ध छैन।</div>'}
       </div>
 
       <div style="background: linear-gradient(135deg, #123d70, #1b4f8a); color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-radius: 10px; padding: 20px 25px;">
@@ -214,7 +220,8 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
         ${arr[3] ? boxHtmlWithTag(arr[3], 'box-3-large') : ''}
       </div>
 
-      <div class="ad-slot">${siteAds.ad1}</div>
+      <!-- Ad Slot १: यहाँ मात्र ad1 देखा पर्नेछ -->
+      <div class="ad-slot">${siteAds.ad1 || ''}</div>
 
       <div class="hero-row-4">
         ${arr[4] ? boxHtmlWithTag(arr[4], 'box-4-small') : ''}
@@ -238,7 +245,7 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
   }
 
   window.loadMore=function(){limit+=6;renderNews()}
-  function renderPopular(){$("popularGrid").innerHTML=[...news].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,3).map(cardHTML).join("") || "<p class='muted'>लोकप्रिय समाचार छैन।</p>"}
+  window.renderPopular=function(){$("popularGrid").innerHTML=[...news].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,3).map(cardHTML).join("") || "<p class='muted'>लोकप्रिय समाचार छैन।</p>"}
 
   window.openArticle=function(id){
     let n = news.find(x => x.id === id);
@@ -262,7 +269,7 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
   }
   
   window.staticPage=function(title){
-    $("modal").innerHTML=`<button class="close" onclick="closeModal()">✕</button><h2>${title}</h2><p>डेलि सेलिब्रेटीमा स्वागत छ। यस पृष्ठको सामग्री Admin वा वेबसाइट सञ्चालकले वास्तविक जानकारीअनुसार अद्यावधिक गर्नुपर्छ।</p>`;
+    $("modal").innerHTML=`<button class="close" onclick="closeModal()">✕</button><h2>${title}</h2><p>डेलि सेलिब्रेटीमा स्वागत छ। यस पृष्ठको सामग्री Admin द्वारा वास्तविक जानकारीअनुसार अद्यावधिक गर्नुपर्छ।</p>`;
     showModal();
   }
 
@@ -284,21 +291,18 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
       </div>
       
       <hr>
-      <h3>📢 विज्ञापन (Ads) व्यवस्थापन</h3>
+      <h3>📢 विज्ञापन (Ads) व्यवस्थापन (Firebase आधारित)</h3>
       <form onsubmit="saveAdsSettings(event)">
-        <label>Ad Slot १ (समाचार बक्सहरू बीचको)</label>
-        <textarea id="adCode1">${safe(siteAds.ad1)}</textarea>
-        
-        <label>Ad Slot २ (प्रयोग नभएको)</label>
-        <textarea id="adCode2" style="display:none;">${safe(siteAds.ad2)}</textarea>
+        <label>Ad Slot १ (Hero सेक्सनको बीचमा)</label>
+        <textarea id="adCode1">${safe(siteAds.ad1 || '')}</textarea>
         
         <label>Ad Slot ३ (मुख्य समाचार सूची माथि)</label>
-        <textarea id="adCodeMiddle">${safe(siteAds.adMiddle)}</textarea>
+        <textarea id="adCodeMiddle">${safe(siteAds.adMiddle || '')}</textarea>
         
         <label>Ad Slot ४ (Quiz सेक्सन माथि)</label>
-        <textarea id="adCodeBottom">${safe(siteAds.adBottom)}</textarea>
+        <textarea id="adCodeBottom">${safe(siteAds.adBottom || '')}</textarea>
         
-        <button class="primary" type="submit" style="margin-top:10px">एड्स कोड Save गर्नुहोस्</button>
+        <button class="primary" type="submit" style="margin-top:10px">एड्स कोड Firebase मा Save गर्नुहोस्</button>
       </form>
       <hr>
 
@@ -316,21 +320,30 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
       <input id="adminFilter" placeholder="समाचार खोज्नुहोस्..." oninput="adminList()">
       <div id="adminList"></div>
       <hr>
-      <h3>Breaking News</h3>
-      <input id="breakingInput" value="${safe(localStorage.getItem("np_breaking")||"")}"><button class="primary" onclick="saveBreaking()">Update Breaking</button>
+      <h3>Breaking News (Firebase आधारित)</h3>
+      <input id="breakingInput" value="${safe(breakingText)}"><button class="primary" onclick="saveBreaking()">Update Breaking</button>
     `;
     showModal();
     adminList();
   }
 
-  window.saveAdsSettings=function(e){
+  // विज्ञापनहरू सिधै Firebase मा सेभ गर्ने
+  window.saveAdsSettings=async function(e){
     e.preventDefault();
-    siteAds.ad1 = $("adCode1").value;
-    siteAds.adMiddle = $("adCodeMiddle").value;
-    siteAds.adBottom = $("adCodeBottom").value;
-    localStorage.setItem("np_ads", JSON.stringify(siteAds));
-    renderAll();
-    toast("विज्ञापन कोड सफलतापूर्वक Update भयो!");
+    siteAds = {
+      ad1: $("adCode1").value,
+      adMiddle: $("adCodeMiddle").value,
+      adBottom: $("adCodeBottom").value
+    };
+
+    try {
+      await setDoc(doc(db, "settings", "ads"), siteAds);
+      renderAll();
+      toast("विज्ञापन कोडहरू Firebase मा successfully Update भए!");
+    } catch (err) {
+      console.error("Error saving ads:", err);
+      toast("विज्ञापन सेभ गर्न असफल!");
+    }
   }
 
   window.saveNews=async function(e){
@@ -417,14 +430,21 @@ footer{background:#102b4d;color:#eaf1fa;padding:30px 4%;margin-top:35px;text-ali
     }
   }
 
-  window.saveBreaking=function(){
-    localStorage.setItem("np_breaking",$("breakingInput").value);
-    $("breakingLine").textContent=$("breakingInput").value;
-    toast("Breaking News Update भयो");
+  // Breaking News सिधै Firebase मा सेभ गर्ने
+  window.saveBreaking=async function(){
+    let text = $("breakingInput").value.trim();
+    try {
+      await setDoc(doc(db, "settings", "breaking"), { text: text });
+      breakingText = text;
+      $("breakingLine").textContent = text;
+      toast("Breaking News Firebase मा Update भयो!");
+    } catch (err) {
+      console.error("Error saving breaking:", err);
+      toast("Breaking News सेभ गर्न असफल!");
+    }
   }
 
   init();
 </script>
 </body>
 </html>
-
