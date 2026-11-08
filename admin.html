@@ -174,33 +174,33 @@ textarea { min-height: 120px; resize: vertical; }
     <hr style="border:0;border-top:1px solid var(--line);margin:30px 0">
 
     <!-- विज्ञापन (Ads) व्यवस्थापन सेक्सन -->
-    <div id="adsSection" class="section-head">📢 विज्ञापन (Ads) व्यवस्थापन - सबै प्रकारका Ads स्लटहरू</div>
+    <div id="adsSection" class="section-head">📢 विज्ञापन (Ads) व्यवस्थापन - Firebase Firestore आधारित</div>
     <form onsubmit="saveAdsSettings(event)">
       <label>१. Header / Top Ad (वेबसाइटको माथिल्लो भाग)</label>
-      <textarea id="adCodeHeader" placeholder="Adsterra, Google AdSense वा अन्य Banner कोड यहाँ राख्नुहोस्..."></textarea>
+      <textarea id="adCodeHeader" placeholder="यहाँ केवल एउटा मात्र विज्ञापन कोड राख्नुहोस्..."></textarea>
       
       <label>२. Ad Slot १ (होमपेज - ३ ठूला समाचार पछि)</label>
-      <textarea id="adCode1"></textarea>
+      <textarea id="adCode1" placeholder="यहाँ केवल एउटा मात्र विज्ञापन कोड राख्नुहोस्..."></textarea>
       
       <label>३. Ad Slot २ (होमपेज - ४ साना समाचार पछि)</label>
-      <textarea id="adCode2"></textarea>
+      <textarea id="adCode2" placeholder="यहाँ केवल एउटा मात्र विज्ञापन कोड राख्नुहोस्..."></textarea>
       
       <label>४. In-Article Ad (समाचार विवरण पृष्ठको बीच भागमा देखा पर्ने)</label>
-      <textarea id="adCodeInArticle" placeholder="समाचार पढ्दा बीचमा देखा पर्ने विज्ञापन कोड..."></textarea>
+      <textarea id="adCodeInArticle" placeholder="यहाँ केवल एउटा मात्र विज्ञापन कोड राख्नुहोस्..."></textarea>
       
       <label>५. Ad Slot ३ (मुख्य समाचार सूची माथि)</label>
-      <textarea id="adCodeMiddle"></textarea>
+      <textarea id="adCodeMiddle" placeholder="यहाँ केवल एउटा मात्र विज्ञापन कोड राख्नुहोस्..."></textarea>
       
       <label>६. Ad Slot ४ (Quiz सेक्सन माथि)</label>
-      <textarea id="adCodeBottom"></textarea>
+      <textarea id="adCodeBottom" placeholder="यहाँ केवल एउटा मात्र विज्ञापन कोड राख्नुहोस्..."></textarea>
       
-      <button class="primary" type="submit">सबै एड्स कोडहरू Save गर्नुहोस्</button>
+      <button class="primary" type="submit">सबै एड्स कोडहरू Firebase मा Save गर्नुहोस्</button>
     </form>
 
     <hr style="border:0;border-top:1px solid var(--line);margin:30px 0">
 
     <!-- ब्रेकिङ न्युज सेक्सन -->
-    <div id="breakingSection" class="section-head">Breaking News व्यवस्थापन</div>
+    <div id="breakingSection" class="section-head">Breaking News व्यवस्थापन (Firebase आधारित)</div>
     <input id="breakingInput" placeholder="Breaking news यहाँ लेख्नुहोस्...">
     <button class="primary" onclick="saveBreaking()">Update Breaking</button>
   </div>
@@ -212,7 +212,7 @@ textarea { min-height: 120px; resize: vertical; }
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, getDoc, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA0UIpvEPLzyPCWxHohbkFN9JPYVC79SpU",
@@ -233,16 +233,7 @@ textarea { min-height: 120px; resize: vertical; }
 
   let news = [];
   let editingId = null;
-
-  let defaultAds = {
-    header: "📢 Header Ad (माथिल्लो विज्ञापन)",
-    ad1: "📢 विज्ञापन स्लट १ (३ वटा ठूला समाचार पछि)",
-    ad2: "📢 विज्ञापन स्लट २ (४ वटा साना समाचार पछि)",
-    inArticle: "📢 In-Article Ad (समाचारको बीचमा देखिने)",
-    adMiddle: "📢 विज्ञापन स्लट ३ (मुख्य समाचार सूची माथि)",
-    adBottom: "📢 विज्ञापन स्लट ४ (Quiz सेक्सन माथि)"
-  };
-  let siteAds = JSON.parse(localStorage.getItem("np_ads") || JSON.stringify(defaultAds));
+  let siteAds = {};
 
   // Firebase Auth मार्फत लगइन गर्ने फंक्सन
   window.loginWithFirebase = function() {
@@ -279,6 +270,7 @@ textarea { min-height: 120px; resize: vertical; }
       $("dashboardSection").style.display = "block";
       $("logoutBtn").style.display = "inline-block";
       await fetchNewsFromFirebase();
+      await fetchSettingsFromFirebase();
       loadAdminData();
     } else {
       $("loginSection").style.display = "block";
@@ -302,6 +294,36 @@ textarea { min-height: 120px; resize: vertical; }
     }
   }
 
+  // Firestore बाट विज्ञापन र ब्रेकिङ न्युज तान्ने
+  async function fetchSettingsFromFirebase() {
+    try {
+      const adsDoc = await getDoc(doc(db, "settings", "ads"));
+      if (adsDoc.exists()) {
+        siteAds = adsDoc.data();
+      } else {
+        siteAds = {
+          header: "",
+          ad1: "",
+          ad2: "",
+          inArticle: "",
+          adMiddle: "",
+          adBottom: ""
+        };
+      }
+
+      const breakingDoc = await getDoc(doc(db, "settings", "breaking"));
+      if (breakingDoc.exists()) {
+        window.breakingText = breakingDoc.data().text || "";
+      } else {
+        window.breakingText = "";
+      }
+    } catch (e) {
+      console.error("Error fetching settings:", e);
+      siteAds = {};
+      window.breakingText = "";
+    }
+  }
+
   window.toggleDrawer = function(){
     $("drawer").classList.toggle("show");
     $("drawerBg").classList.toggle("show");
@@ -322,21 +344,29 @@ textarea { min-height: 120px; resize: vertical; }
     $("adCodeMiddle").value = siteAds.adMiddle || "";
     $("adCodeBottom").value = siteAds.adBottom || "";
 
-    $("breakingInput").value = localStorage.getItem("np_breaking") || "";
+    $("breakingInput").value = window.breakingText || "";
     adminList();
   }
 
-  window.saveAdsSettings = function(e){
+  // विज्ञापनहरू फायरस्टोरमा पूर्ण रूपमा सेभ गर्ने
+  window.saveAdsSettings = async function(e){
     e.preventDefault();
-    siteAds.header = $("adCodeHeader").value;
-    siteAds.ad1 = $("adCode1").value;
-    siteAds.ad2 = $("adCode2").value;
-    siteAds.inArticle = $("adCodeInArticle").value;
-    siteAds.adMiddle = $("adCodeMiddle").value;
-    siteAds.adBottom = $("adCodeBottom").value;
-    
-    localStorage.setItem("np_ads", JSON.stringify(siteAds));
-    toast("सबै विज्ञापन कोडहरू सफलतापूर्वक Update भए!");
+    siteAds = {
+      header: $("adCodeHeader").value.trim(),
+      ad1: $("adCode1").value.trim(),
+      ad2: $("adCode2").value.trim(),
+      inArticle: $("adCodeInArticle").value.trim(),
+      adMiddle: $("adCodeMiddle").value.trim(),
+      adBottom: $("adCodeBottom").value.trim()
+    };
+
+    try {
+      await setDoc(doc(db, "settings", "ads"), siteAds);
+      toast("सबै विज्ञापन कोडहरू सफलतापूर्वक Firebase मा Update भए!");
+    } catch (err) {
+      console.error("Error saving ads:", err);
+      toast("विज्ञापन सेभ गर्न असफल!");
+    }
   }
 
   window.insertTag = function(openTag, closeTag){
@@ -446,9 +476,17 @@ textarea { min-height: 120px; resize: vertical; }
     }
   }
 
-  window.saveBreaking = function(){
-    localStorage.setItem("np_breaking", $("breakingInput").value);
-    toast("Breaking News सफलतापूर्वक Update भयो!");
+  // ब्रेकिङ न्युज फायरस्टोरमा सेभ गर्ने
+  window.saveBreaking = async function(){
+    let text = $("breakingInput").value.trim();
+    try {
+      await setDoc(doc(db, "settings", "breaking"), { text: text });
+      window.breakingText = text;
+      toast("Breaking News सफलतापूर्वक Firebase मा Update भयो!");
+    } catch (err) {
+      console.error("Error saving breaking:", err);
+      toast("Breaking News सेभ गर्न असफल!");
+    }
   }
 </script>
 </body>
