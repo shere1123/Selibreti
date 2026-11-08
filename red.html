@@ -136,8 +136,27 @@ h1 {
   border: 0;
 }
 
-.actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 25px 0; }
-.smallbtn { border: 1px solid var(--line); background: #f8fafc; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-family: 'Mukta', sans-serif; font-weight: 600; font-size: 16px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--ink); }
+/* आकर्षक र राम्रो लाइक बटन डिजाइन */
+.actions { display: flex; gap: 12px; align-items: center; margin: 30px 0; }
+.like-btn { 
+  background: linear-gradient(135deg, #d92735, #b91c28); 
+  color: white; 
+  border: 0; 
+  padding: 12px 24px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-family: 'Mukta', sans-serif; 
+  font-weight: 700; 
+  font-size: 17px; 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px; 
+  box-shadow: 0 4px 12px rgba(217, 39, 53, 0.25);
+  transition: transform 0.1s ease, background 0.2s;
+}
+.like-btn:active { transform: scale(0.96); }
+.like-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
 .primary { background: var(--blue); color: white; border: 0; padding: 12px 20px; border-radius: 7px; font-weight: 700; cursor: pointer; font-family: 'Mukta', sans-serif; font-size: 16px; }
 
 .ad-slot { 
@@ -159,13 +178,13 @@ h1 {
   display: block;
 }
 
-/* रियल सेयर बार डिजाइन */
+/* सेयर बार डिजाइन */
 .share-bar-container {
   display: flex;
   align-items: center;
   background: #ffffff;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 6px;
   margin: 30px 0;
   overflow: hidden;
   max-width: 480px;
@@ -297,7 +316,7 @@ textarea, input {
 
 <div id="toast"></div>
 
-<!-- Firebase SDKs र Real Share Logic -->
+<!-- Firebase SDKs र Real Logic -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, collection, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -327,16 +346,34 @@ textarea, input {
     });
   }
 
-  // ग्लोबल सेयर फंक्सन (Real Share Count बढाउने)
+  // ग्लोबल रियल लाइक फंक्सन
+  window.likeArticle = async function(docId) {
+    try {
+      const ref = doc(db, "news", String(docId));
+      const snap = await getDoc(ref);
+      if(snap.exists()){
+        let d = snap.data();
+        let newLikes = (Number(d.likes) || 0) + 1;
+        await updateDoc(ref, { likes: newLikes });
+        if($("likeCount")) $("likeCount").textContent = newLikes;
+        toast("❤️ धन्यवाद! सफलतापूर्वक लाइक गरियो।");
+      }
+    } catch(e) {
+      console.error("Like error:", e);
+      toast("लाइक गर्न असफल!");
+    }
+  }
+
+  // ग्लोबल सेयर फंक्सन
   window.handleShare = async function(docId, platform) {
     try {
       const ref = doc(db, "news", String(docId));
       const snap = await getDoc(ref);
       if(snap.exists()){
         let d = snap.data();
-        d.shares = (d.shares || 0) + 1;
-        await updateDoc(ref, { shares: d.shares });
-        if($("shareCountNum")) $("shareCountNum").textContent = d.shares;
+        let newShares = (Number(d.shares) || 0) + 1;
+        await updateDoc(ref, { shares: newShares });
+        if($("shareCountNum")) $("shareCountNum").textContent = newShares;
       }
     } catch(e) {
       console.log("Share count update error", e);
@@ -384,7 +421,7 @@ textarea, input {
 
       try {
         const docRef = doc(db, "news", String(article.firebaseDocId));
-        article.views = (article.views || 0) + 1;
+        article.views = (Number(article.views) || 0) + 1;
         await updateDoc(docRef, { views: article.views });
       } catch(e) {
         console.log("Views update skipped", e);
@@ -394,7 +431,8 @@ textarea, input {
       const siteAds = JSON.parse(localStorage.getItem("np_ads") || "{}");
       let related = articles.filter(x => String(x.firebaseDocId) !== String(article.firebaseDocId)).sort(() => 0.5 - Math.random()).slice(0, 6);
 
-      const totalShares = article.shares || 0;
+      const totalShares = Number(article.shares) || 0;
+      const totalLikes = Number(article.likes) || 0;
 
       $("articleContainer").innerHTML = `
         <a href="index.html" class="back-link">← गृहपृष्ठमा फर्कनुहोस्</a>
@@ -414,12 +452,15 @@ textarea, input {
           ${siteAds.inArticle || '📢 विज्ञापन राख्ने ठाउँ (Ad Banner)'}
         </div>
 
+        <!-- राम्रो र आकर्षक लाइक बटन (सुरक्षित गर्नुहोस् हटाइएको छ) -->
         <div class="actions">
-          <button class="smallbtn" onclick="likeArticle('${article.firebaseDocId}')">👍 लाइक गर्नुहोस् (<span id="likeCount">${article.likes || 0}</span>)</button>
-          <button class="smallbtn" onclick="bookmarkArticle('${targetId}')">🔖 सुरक्षित गर्नुहोस्</button>
+          <button class="like-btn" onclick="likeArticle('${article.firebaseDocId}')">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            मनपराउनुहोस् (<span id="likeCount">${totalLikes}</span>)
+          </button>
         </div>
 
-        <!-- वास्तविक रियल सेयर काउन्टर बार -->
+        <!-- सेयर बार डिजाइन -->
         <div class="share-bar-container">
           <div class="shares-count">
             <span class="num" id="shareCountNum">${totalShares}</span>
@@ -487,33 +528,10 @@ textarea, input {
         </div>
       `;
 
-      window.likeArticle = async function(docId) {
-        try {
-          const ref = doc(db, "news", String(docId));
-          const snap = await getDoc(ref);
-          if(snap.exists()){
-            let d = snap.data();
-            d.likes = (d.likes || 0) + 1;
-            await updateDoc(ref, { likes: d.likes });
-            $("likeCount").textContent = d.likes;
-            toast("सफलतापूर्वक लाइक गरियो!");
-          }
-        } catch(e) {
-          toast("लाइक गर्न असफल!");
-        }
-      };
-
     } catch (err) {
       console.error("Error:", err);
       $("articleContainer").innerHTML = `<h2>समाचार लोड गर्न असफल भयो!</h2><a href="index.html" class="back-link">← गृहपृष्ठमा फर्कनुहोस्</a>`;
     }
-  }
-
-  window.bookmarkArticle = function(id){
-    let b = JSON.parse(localStorage.getItem("np_saved")||"[]");
-    if(!b.includes(id)) b.push(id);
-    localStorage.setItem("np_saved", JSON.stringify(b));
-    toast("बुकमार्कमा सुरक्षित भयो!");
   }
 
   window.addComment = function(id){
