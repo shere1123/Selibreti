@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>समाचार विवरण | डेलि सेलिब्रेटी</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap');
 :root{--blue:#123d70;--red:#d92735;--ink:#111827;--muted:#4b5563;--line:#e5e7eb}
 * { box-sizing: border-box; }
 
@@ -14,11 +14,9 @@ html, body {
   padding: 0;
   background: #ffffff;
   color: var(--ink);
-  font-family: 'Mukta', sans-serif;
+  font-family: 'Noto Serif', serif;
   width: 100%;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 header {
@@ -37,8 +35,8 @@ header {
 }
 
 .brand { 
-  font-size: 24px; 
-  font-weight: 800; 
+  font-size: 23px; 
+  font-weight: 700; 
   color: var(--blue); 
   text-decoration: none; 
   display: inline-flex; 
@@ -56,19 +54,19 @@ header {
   background: #ffffff;
 }
 
-.tag { display: inline-block; background: #eef2f6; color: var(--blue); padding: 5px 12px; border-radius: 4px; font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+.tag { display: inline-block; background: #eef2f6; color: var(--blue); padding: 5px 12px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
 
 h1 {
-  font-size: 33px;
+  font-size: 32px;
   line-height: 1.4;
   margin: 10px 0;
   color: #0f172a;
-  font-weight: 800;
+  font-weight: 700;
   word-break: break-word;
   overflow-wrap: break-word;
 }
 
-.muted { color: var(--muted); font-size: 16px; margin-bottom: 18px; font-weight: 600; }
+.muted { color: var(--muted); font-size: 15px; margin-bottom: 18px; font-weight: 600; }
 
 .articleimg-container {
   width: 100vw;
@@ -89,8 +87,8 @@ h1 {
 }
 
 .summary {
-  font-size: 22px;
-  font-weight: 700; /* अक्षर अझ मोटो बनाइएको */
+  font-size: 21px;
+  font-weight: 600;
   color: #1f2937;
   margin-bottom: 25px;
   line-height: 1.8;
@@ -103,15 +101,16 @@ h1 {
   border-radius: 4px;
 }
 
+/* यहाँ अक्षरको साइज 21px र मोटाइ (font-weight: 600) बनाइएको छ */
 .articlebody {
-  line-height: 2.2;
-  font-size: 22px;
+  line-height: 2.1;
+  font-size: 21px;
+  font-weight: 600;
   color: #111827;
-  font-weight: 500; /* सामान्य पाठ अलि मोटो र स्पष्ट */
   text-align: justify;
   word-break: break-word;
   overflow-wrap: break-word;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 
 .articlebody img {
@@ -139,12 +138,11 @@ h1 {
   border: 0;
 }
 
-/* लाइक बटन र सेयर बारलाई एकअर्कासँग टाँसेर राख्ने कन्टेनर */
 .engagement-wrapper {
   margin: 30px 0;
   display: flex;
   flex-direction: column;
-  gap: 0px; 
+  gap: 0px;
   max-width: 480px;
   border: 1px solid #ccd0d5;
   border-radius: 6px;
@@ -152,18 +150,17 @@ h1 {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-/* फेसबुकको जस्तो 👍️ आइकन भएको सेतो लाइक बटन */
 .like-btn { 
   background: #ffffff; 
   color: #1877f2; 
   border: none; 
   border-bottom: 1px solid #ccd0d5; 
-  padding: 12px 22px; 
+  padding: 10px 22px; 
   border-radius: 0px; 
   cursor: pointer; 
-  font-family: 'Mukta', sans-serif; 
-  font-weight: 800; /* बटनको अक्षर मोटो बनाइएको */
-  font-size: 18px; 
+  font-family: 'Noto Serif', serif; 
+  font-weight: 700; 
+  font-size: 17px; 
   display: inline-flex; 
   align-items: center; 
   justify-content: center;
@@ -173,9 +170,8 @@ h1 {
 }
 .like-btn:hover { background: #f0f2f5; }
 .like-btn:active { transform: scale(0.98); }
-.like-btn svg { width: 22px; height: 22px; fill: #1877f2; }
+.like-btn svg { width: 20px; height: 20px; fill: #1877f2; }
 
-/* स्क्रिनमा घुमेर Thank You देखाउने पपअप एनिमेसन */
 #thankYouPopup {
   position: fixed;
   top: 50%;
@@ -210,16 +206,15 @@ h1 {
   margin: 0;
   font-size: 26px;
   color: #4facfe;
-  font-weight: 800;
+  font-weight: 700;
 }
 #thankYouPopup p {
   margin: 5px 0 0;
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 16px;
   color: #e2e8f0;
 }
 
-.primary { background: var(--blue); color: white; border: 0; padding: 12px 20px; border-radius: 7px; font-weight: 800; cursor: pointer; font-family: 'Mukta', sans-serif; font-size: 17px; }
+.primary { background: var(--blue); color: white; border: 0; padding: 12px 20px; border-radius: 7px; font-weight: 700; cursor: pointer; font-family: 'Noto Serif', serif; font-size: 16px; }
 
 .ad-slot { 
   background: #f1f5f9; 
@@ -228,7 +223,7 @@ h1 {
   padding: 10px 0; 
   text-align: center; 
   color: var(--muted); 
-  font-weight: 700; 
+  font-weight: 600; 
   margin: 30px calc(-4% - 16px); 
   overflow: hidden; 
 }
@@ -240,7 +235,6 @@ h1 {
   display: block;
 }
 
-/* सेयर बार डिजाइन */
 .share-bar-container {
   display: flex;
   align-items: center;
@@ -257,8 +251,8 @@ h1 {
   border-right: 1px solid var(--line);
 }
 .shares-count .num {
-  font-size: 25px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 700;
   color: #4b5563;
   line-height: 1;
   display: block;
@@ -266,7 +260,7 @@ h1 {
 .shares-count .lbl {
   font-size: 14px;
   color: #4b5563;
-  font-weight: 700;
+  font-weight: 600;
 }
 .share-icons-group {
   display: flex;
@@ -306,9 +300,9 @@ textarea, input {
   width: 100%;
   margin-top: 6px;
   margin-bottom: 14px;
-  font-family: 'Mukta', sans-serif;
-  font-size: 17px;
-  font-weight: 600; /* इनपुटभित्रको अक्षर मोटो बनाइएको */
+  font-family: 'Noto Serif', serif;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .panel {
@@ -319,8 +313,8 @@ textarea, input {
   margin: 12px 0;
   word-break: break-word;
 }
-.panel b { color: #0f172a; font-size: 17px; }
-.panel p { color: #334155; font-size: 16px; font-weight: 500; }
+.panel b { color: #0f172a; }
+.panel p { color: #334155; }
 
 .related-grid {
   display: grid;
@@ -347,20 +341,21 @@ textarea, input {
   padding: 12px;
 }
 .related-body h4 {
-  font-size: 16px;
+  font-size: 15px;
   margin: 6px 0 0 0;
   line-height: 1.4;
   color: #111827;
-  font-weight: 700; /* सम्बन्धित समाचारको शीर्षक मोटो बनाइएको */
+  font-weight: 700;
 }
 
-#toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 12px 20px; border-radius: 8px; z-index: 100; display: none; font-weight: 700; font-size: 16px; }
-.back-link { display: inline-block; margin-bottom: 15px; color: var(--blue); font-weight: 800; text-decoration: none; font-size: 18px; }
+#toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 12px 20px; border-radius: 8px; z-index: 100; display: none; font-weight: 600; }
+.back-link { display: inline-block; margin-bottom: 15px; color: var(--blue); font-weight: 700; text-decoration: none; font-size: 17px; }
 
 @media(max-width: 768px) {
   .related-grid { grid-template-columns: 1fr; }
-  h1 { font-size: 27px; }
-  .articlebody, .summary { font-size: 21px; }
+  h1 { font-size: 26px; }
+  .articlebody { font-size: 20px; } /* मोबाइलमा पनि अलि ठूलो र प्रष्ट देखिने गरी */
+  .summary { font-size: 20px; }
 }
 </style>
 </head>
@@ -371,10 +366,9 @@ textarea, input {
 </header>
 
 <main class="wrap" id="articleContainer">
-  <p style="text-align:center; padding:50px; font-size:18px; font-weight:700;">समाचार लोड हुँदैछ...</p>
+  <p style="text-align:center; padding:50px; font-size:18px;">समाचार लोड हुँदैछ...</p>
 </main>
 
-<!-- स्क्रिनमा घुमेर Thank You देखाउने पपअप बक्स -->
 <div id="thankYouPopup">
   <span class="heart-anim">👍</span>
   <h2>Thank You!</h2>
@@ -383,7 +377,6 @@ textarea, input {
 
 <div id="toast"></div>
 
-<!-- Firebase SDKs र Real Logic -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, collection, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -413,7 +406,6 @@ textarea, input {
     });
   }
 
-  // ग्लोबल रियल लाइक फंक्सन + Thank You एनिमेसन पपअप
   window.likeArticle = async function(docId) {
     try {
       const ref = doc(db, "news", String(docId));
@@ -424,7 +416,6 @@ textarea, input {
         await updateDoc(ref, { likes: newLikes });
         if($("likeCount")) $("likeCount").textContent = newLikes;
         
-        // Thank You Popup देखाउने एनिमेसन
         const popup = $("thankYouPopup");
         popup.classList.add("show");
         setTimeout(() => {
@@ -437,7 +428,6 @@ textarea, input {
     }
   }
 
-  // ग्लोबल सेयर फंक्सन
   window.handleShare = async function(docId, platform) {
     try {
       const ref = doc(db, "news", String(docId));
@@ -525,7 +515,6 @@ textarea, input {
           ${siteAds.inArticle || '📢 विज्ञापन राख्ने ठाउँ (Ad Banner)'}
         </div>
 
-        <!-- लाइक बटन र सेयर बार एकअर्कासँग टाँसिएको चिटिक्कको बक्स -->
         <div class="engagement-wrapper">
           <button class="like-btn" onclick="likeArticle('${article.firebaseDocId}')">
             <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
@@ -565,7 +554,7 @@ textarea, input {
             <a href="red.html?id=${item.firebaseDocId}" class="related-card">
               <img src="${safe(item.image || "https://placehold.co/400x250")}" onerror="this.src='https://placehold.co/400x250?text=News'">
               <div class="related-body">
-                <span style="font-size:13px; color:var(--blue); font-weight:800;">${safe(item.category)}</span>
+                <span style="font-size:12px; color:var(--blue); font-weight:700;">${safe(item.category)}</span>
                 <h4>${safe(item.title)}</h4>
               </div>
             </a>
@@ -581,7 +570,7 @@ textarea, input {
             <a href="red.html?id=${item.firebaseDocId}" class="related-card">
               <img src="${safe(item.image || "https://placehold.co/400x250")}" onerror="this.src='https://placehold.co/400x250?text=News'">
               <div class="related-body">
-                <span style="font-size:13px; color:var(--blue); font-weight:800;">${safe(item.category)}</span>
+                <span style="font-size:12px; color:var(--blue); font-weight:700;">${safe(item.category)}</span>
                 <h4>${safe(item.title)}</h4>
               </div>
             </a>
