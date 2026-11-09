@@ -1,0 +1,992 @@
+<!DOCTYPE html>  
+<html lang="ne">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">  
+<meta name="theme-color" content="#b5121b">  
+<meta name="description" content="लोकसेवा, शिक्षक सेवा, बैंकिङ, सुरक्षा निकाय तथा भाषा परीक्षाको अनलाइन तयारी पोर्टल।">  
+<title>डेली सेलिब्रेटी | Online Quiz Portal</title>  
+<link rel="manifest" href="manifest.json">  
+<link rel="preconnect" href="https://fonts.googleapis.com">  
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet">  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+
+<style>  
+:root{  
+ --navy:#101c35;  
+ --navy2:#172b50;  
+ --blue:#356cf6;  
+ --blue2:#2456d8;  
+ --green:#079669;  
+ --red:#b5121b;  
+ --bg:#f3f6fc;  
+ --card:#fff;  
+ --text:#17243a;  
+ --muted:#69778d;  
+ --line:#e3e9f3;  
+ --shadow:0 8px 28px rgba(26,45,85,.08);  
+ --radius:18px;  
+}  
+*{box-sizing:border-box}  
+html{scroll-behavior:smooth}  
+body{  
+ margin:0;  
+ padding:0 0 25px;  
+ font-family:'Mukta',sans-serif;  
+ background:var(--bg);  
+ color:var(--text);  
+ overflow-x:hidden;  
+ -webkit-tap-highlight-color:transparent;  
+}  
+button,a{font:inherit}  
+button{cursor:pointer}  
+a{text-decoration:none}  
+button:focus-visible,a:focus-visible{  
+ outline:3px solid #93b4ff;outline-offset:3px  
+}  
+  
+/* Header & Brand Logo from index.html with Back Button */  
+.sticky-header-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 100%;
+}
+.brandbar{background:#fff;border-bottom:1px solid var(--line)}
+.brand-inner{display:flex;align-items:center;justify-content:center;padding:10px 16px;position:relative;width:min(1180px,100%);margin:auto}
+.brand-center{text-align:center;flex:1;padding:0 5px}
+
+.header-back-btn {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fdf2f2;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 1px solid #f9d8d8;
+  box-shadow: 0 2px 6px rgba(181, 18, 27, 0.1);
+  transition: 0.2s;
+  z-index: 10;
+}
+.header-back-btn:hover {
+  background: #fae1e1;
+}
+
+.brand-logo-area {display: flex;align-items: center;justify-content: center;gap: 10px;text-decoration: none;}
+.brand-logo-icon {position: relative;width: 48px;height: 48px;border-radius: 50%;background: radial-gradient(circle, #ffe6e6 0%, #fdf2f2 100%);border: 2px solid var(--red);display: flex;align-items: center;justify-content: center;box-shadow: 0 3px 8px rgba(181, 18, 27, 0.2);flex-shrink: 0;}
+.brand-logo-ds {position: relative;z-index: 2;font-family: 'Mukta', sans-serif;font-weight: 900;font-size: 20px;color: var(--red);letter-spacing: -1px;}
+.brand-text-wrap {text-align: left;display: inline-block;}
+.brand {font-family: 'Yatra One', 'Mukta', cursive;font-size: clamp(20px, 4.5vw, 32px);font-weight: 700;color: var(--red);line-height: 1.05;display: block;white-space: nowrap;}
+.brand-first-letter {font-size: 1.38em;font-weight: 800;color: #d90429;display: inline-block;transform: translateY(2px);margin-right: -2px;}
+
+/* QZ लाई ठूलो र मोटो (Bold) बनाइएको स्टाइल */
+.brand-qize {
+  font-family: 'Yatra One', 'Mukta', cursive;
+  font-size: 1.45em; 
+  font-weight: 900; 
+  color: var(--blue);
+  margin-left: 6px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.brand-qize .q-highlight {
+  color: var(--red);
+  font-size: 1.25em; 
+  font-weight: 900;
+}
+
+.brand-curve-underline {height: 3px;background: linear-gradient(90deg, var(--red) 0%, #ff4d4d 70%, transparent 100%);border-radius: 3px;margin-top: 1px;width: 100%;}
+.brand-tagline {display: block;font-size: 11px;letter-spacing: 0.5px;color: #555;font-weight: 600;margin-top: 3px;}
+
+/* ब्याकग्राउन्ड बिनाको विज्ञापन कन्टेनर */
+.banner-320-container {
+  width: 100%;
+  max-width: 320px;
+  margin: 6px auto 10px auto;
+  text-align: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.banner-320-body {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: transparent !important;
+}
+  
+/* Main */  
+.container{max-width:1050px;margin:0 auto;padding:20px 15px}  
+.welcome-card{  
+ display:flex;align-items:center;justify-content:space-between;  
+ gap:12px;padding:18px;margin-bottom:22px;  
+ background:var(--card);border:1px solid var(--line);  
+ border-radius:var(--radius);box-shadow:var(--shadow)  
+}  
+.welcome-card h2{font-size:19px;margin:0 0 3px;font-weight:800}  
+.welcome-card p{font-size:13px;color:var(--muted);margin:0;line-height:1.6}  
+.welcome-icon{  
+ width:53px;height:53px;display:grid;place-items:center;  
+ border-radius:16px;background:#eaf0ff;color:var(--blue);  
+ font-size:25px;flex-shrink:0  
+}  
+.section-heading{  
+ display:flex;justify-content:space-between;align-items:center;  
+ gap:10px;margin:24px 2px 13px  
+}  
+.section-heading h2{font-size:18px;font-weight:800;margin:0}  
+.section-heading span{font-size:12px;color:var(--muted)}  
+.grid-container{  
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));  
+ gap:13px;margin-bottom:26px  
+}  
+.card{  
+ min-width:0;position:relative;overflow:hidden;  
+ padding:17px 10px 16px;border-radius:17px;  
+ background:#fff;border:1px solid var(--line);  
+ box-shadow:0 4px 15px #172b5008;  
+ cursor:pointer;text-align:center;  
+ display:flex;flex-direction:column;align-items:center;  
+ justify-content:center;gap:11px;  
+ transition:transform .2s,box-shadow .2s,border-color .2s;  
+}  
+.card:after{  
+ content:"";position:absolute;left:0;top:0;width:100%;height:3px;  
+ background:var(--accent,#356cf6)  
+}  
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#c8d7ff}  
+.card:active{transform:scale(.98)}  
+.card-icon{  
+ width:58px;height:58px;display:grid;place-items:center;  
+ border-radius:17px;background:var(--tint,#eaf0ff);  
+ color:var(--accent,#356cf6);font-size:28px;  
+ box-shadow:inset 0 0 0 1px #ffffffaa  
+}  
+.card-content h3{  
+ margin:0 0 4px;font-size:15px;font-weight:800;  
+ line-height:1.45;color:#18253b;overflow-wrap:anywhere  
+}  
+.card-content p{margin:0;color:var(--muted);font-size:11.5px;line-height:1.5;font-weight:600}  
+.card-arrow{  
+ position:absolute;right:10px;top:12px;color:#a5b1c4;font-size:11px  
+}  
+.card-1{--accent:#16834b;--tint:#e2f8eb}  
+.card-2{--accent:#2865df;--tint:#e7efff}  
+.card-3{--accent:#b17a0b;--tint:#fff4d6}  
+.card-4{--accent:#7b43cf;--tint:#f1e9ff}  
+.card-5{--accent:#d43b54;--tint:#ffeaed}  
+.card-6{--accent:#087f8c;--tint:#ddf8f7}  
+.card-7{--accent:#db6b19;--tint:#fff0df}  
+.card-8{--accent:#475569;--tint:#edf1f6}  
+.card-9{--accent:#c02678;--tint:#ffe8f5}  
+.card-10{--accent:#578a17;--tint:#eff9d9}  
+.card-11{--accent:#6d48d7;--tint:#eee9ff}  
+.card-12{--accent:#0787a5;--tint:#e0f8ff}  
+.card-13{--accent:#a16a08;--tint:#fff5ce}  
+.card-14{--accent:#147db8;--tint:#e2f4ff}  
+  
+/* Modal */  
+.modal,.overlay{  
+ display:none;position:fixed;inset:0;z-index:1000;  
+ align-items:center;justify-content:center;  
+ padding:18px;background:#0c1730a8;backdrop-filter:blur(5px)  
+}  
+.modal-content,.popup-box,.custom-alert-box{  
+ width:100%;max-width:390px;max-height:90vh;overflow-y:auto;  
+ padding:23px;background:#fff;border:1px solid #e6ebf4;  
+ border-radius:23px;box-shadow:0 25px 80px #0003;  
+ text-align:center;color:var(--text)  
+}  
+.modal-content h2{margin:0;font-size:21px;font-weight:800}  
+.modal-content>p{color:var(--muted);font-size:13px;margin:7px 0 17px}  
+.option-btn,.close-btn,.popup-ok-btn,.custom-alert-btn{  
+ width:100%;border:0;border-radius:12px;padding:12px 14px;  
+ margin:6px 0;font-size:14px;font-weight:800;transition:.2s  
+}  
+.option-btn{color:#fff;background:linear-gradient(135deg,#477cf8,#2858d9);box-shadow:0 5px 13px #356cf626}  
+.option-btn:hover,.popup-ok-btn:hover{filter:brightness(1.06);transform:translateY(-1px)}  
+.reading-btn{background:linear-gradient(135deg,#0fa77a,#07835e)}  
+.close-btn{background:#edf1f7;color:#43516a;box-shadow:none}  
+.close-btn:hover{background:#e1e8f2}  
+.social-share-container{margin-top:17px;border-top:1px solid var(--line);padding-top:15px}  
+.social-share-container p{font-size:12px;color:var(--muted);margin:0 0 12px;font-weight:700}  
+.social-icons{display:flex;justify-content:center;gap:13px}  
+.social-icon-btn{  
+ width:43px;height:43px;border-radius:14px;display:grid;place-items:center;  
+ color:white;font-size:19px;box-shadow:0 4px 10px #0001;transition:.2s  
+}  
+.social-icon-btn:hover{transform:translateY(-3px)}  
+.fb-bg{background:#1877f2}.wa-bg{background:#20b968}.tt-bg{background:#111}  
+  
+/* Quiz */  
+#quizScreen{  
+ display:none;position:fixed;inset:0;z-index:2000;  
+ overflow-y:auto;background:linear-gradient(180deg,#101c35,#172847);  
+ padding:12px 12px calc(22px + env(safe-area-inset-bottom));  
+ justify-content:center;align-items:flex-start  
+}  
+.quiz-wrapper{width:100%;max-width:510px;margin:auto}  
+.quiz-container-box,.reading-question-card{  
+ width:100%;background:#fff;color:var(--text);  
+ border:1px solid #e5eaf3;border-radius:18px;  
+ box-shadow:0 10px 28px #0001  
+}  
+.quiz-container-box{padding:16px;margin-bottom:12px}  
+.quiz-header-title{text-align:center;font-size:19px;font-weight:800;color:#15233c}  
+.quiz-sub-title{text-align:center;font-size:12px;font-weight:700;color:var(--blue);margin:3px 0 14px}  
+.score-board{  
+ display:flex;align-items:center;justify-content:space-between;gap:8px;  
+ padding:10px 11px;margin-bottom:11px;background:#f5f7fc;  
+ border:1px solid var(--line);border-radius:12px;font-size:12px;font-weight:800  
+}  
+.correct-count{color:#07865d}.wrong-count{color:#d73749}  
+.quiz-social-bar{display:flex;justify-content:center;gap:7px}  
+.quiz-social-icon{  
+ display:grid;place-items:center;width:29px;height:29px;  
+ border-radius:10px;color:white;font-size:12px  
+}  
+.quiz-info-row{  
+ display:flex;justify-content:space-between;gap:8px;  
+ margin:0 0 10px;color:var(--muted);font-size:12px;font-weight:700  
+}  
+.timer-display{color:#d93649;font-weight:800}  
+.question-box{  
+ display:flex;align-items:center;justify-content:center;  
+ min-height:75px;padding:17px 13px;margin-bottom:13px;  
+ border-radius:14px;text-align:center;line-height:1.65;  
+ font-size:16px;font-weight:800;  
+ color:#fff;background:linear-gradient(135deg,#376ff0,#244fc5);  
+ box-shadow:0 6px 15px #356cf626;overflow-wrap:anywhere  
+}  
+.mcq-option{  
+ display:flex;align-items:center;gap:11px;  
+ min-height:49px;padding:10px 12px;margin-bottom:9px;  
+ border:1px solid #dce3ee;border-radius:12px;  
+ background:#fff;color:#24324a;font-size:14px;font-weight:600;  
+ line-height:1.55;transition:background .15s,border-color .15s;  
+ overflow-wrap:anywhere  
+}  
+.mcq-option[onclick]{cursor:pointer}  
+.mcq-option:hover{background:#f4f7ff;border-color:#9db8ff}  
+.option-badge{  
+ display:flex;align-items:center;justify-content:center;  
+ flex-shrink:0;width:29px;height:29px;border-radius:9px;  
+ background:#e8efff;color:#285cdb;font-size:12px;font-weight:800  
+}  
+.reading-question-card{padding:15px;margin-bottom:13px}  
+.reading-social-box{  
+ display:flex;align-items:center;justify-content:space-between;  
+ flex-wrap:wrap;gap:8px;padding:10px;margin-top:12px;  
+ border:1px solid var(--line);border-radius:11px;background:#f7f9fd  
+}  
+.reading-social-box span{font-size:11px;font-weight:800}  
+.reading-social-icons{display:flex;gap:5px;flex-wrap:wrap}  
+.reading-soc-btn{padding:6px 8px;border-radius:7px;color:#fff;font-size:10px;font-weight:700}  
+.set-btn{  
+ width:100%;padding:13px;margin:6px 0;text-align:left;  
+ border:1px solid var(--line);border-radius:12px;  
+ background:#f8faff;color:#24324a;font-size:14px;font-weight:800  
+}  
+.set-btn:hover{background:#eaf0ff;border-color:#9bb7ff}  
+#customPopup,#customAlertModal{z-index:3000}  
+.popup-box h3,.custom-alert-box h3{margin:0 0 10px;font-size:19px}  
+.popup-box{border-top:4px solid #16a47a}  
+.custom-alert-box{border-top:4px solid var(--blue)}  
+.popup-ok-btn{background:#0c9a70;color:#fff}  
+.custom-alert-btn{background:var(--blue);color:#fff}  
+.loading-text{text-align:center;padding:32px 10px;color:var(--blue);font-weight:800}  
+footer{padding:18px 10px;text-align:center;color:#8995a8;font-size:11px}  
+  
+@media(min-width:600px){  
+ .container{padding:25px 22px}  
+ .grid-container{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}  
+ .card{padding:22px 12px;min-height:175px}  
+ .card-icon{width:62px;height:62px;font-size:29px}  
+ .card-content h3{font-size:16px}  
+ .welcome-card{padding:22px}  
+}  
+@media(min-width:900px){  
+ .grid-container{grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}  
+}  
+@media(max-width:360px){  
+ .grid-container{gap:9px}  
+ .card{padding:15px 7px}  
+ .card-icon{width:50px;height:50px;font-size:24px}  
+ .card-content h3{font-size:13px}  
+ .card-content p{font-size:10.5px}  
+ .quiz-container-box{padding:12px}  
+ .question-box{font-size:14px}  
+ .mcq-option{font-size:13px}  
+}  
+</style>  
+</head>  
+<body>  
+
+<div class="sticky-header-container">
+  <header class="brandbar">
+    <div class="brand-inner">
+      <a href="index.html" class="header-back-btn" aria-label="Back">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <div class="brand-center">
+        <a href="index.html" class="brand-logo-area">
+          <div class="brand-logo-icon"><span class="brand-logo-ds">DS</span></div>
+          <div class="brand-text-wrap">
+            <span class="brand"><span class="brand-first-letter">डे</span>ली सेलिब्रेटी <span class="brand-qize"><span class="q-highlight">Q</span>Z</span></span>
+            <div class="brand-curve-underline"></div>
+            <small class="brand-tagline">सबै खबर सबैका लागि</small>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+</div>
+
+<main class="container">  
+  <div class="banner-320-container">  
+    <div class="banner-320-body" id="mainBannerContainer"></div>  
+  </div>
+
+ <section class="welcome-card">  
+  <div>  
+   <h2>नमस्कार, तयारी सुरु गरौँ!</h2>  
+   <p>आफ्नो लक्ष्यअनुसार विषय छान्नुहोस् र अभ्यास गर्नुहोस्।</p>  
+  </div>  
+  <div class="welcome-icon"><i class="fa-solid fa-book-open-reader"></i></div>  
+ </section>   
+
+ <div class="section-heading">  
+  <h2><i class="fa-solid fa-layer-group" style="color:#356cf6;margin-right:6px"></i>तयारीका विषयहरू</h2>  
+  <span>१४ विषयहरू</span>  
+ </div>   
+
+ <div class="grid-container">  
+  <div class="card card-1" onclick="openModal('Loksewa','लोकसेवा सामान्य ज्ञान')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon">🇳🇵</div>  
+   <div class="card-content"><h3>लोकसेवा सामान्य ज्ञान</h3><p>Loksewa GK तयारी</p></div>  
+  </div>  
+  <div class="card card-2" onclick="openModal('TSC','शिक्षक सेवा आयोग')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-book-open"></i></div>  
+   <div class="card-content"><h3>शिक्षक सेवा आयोग</h3><p>TSC तयारी सेटहरू</p></div>  
+  </div>  
+  <div class="card card-3" onclick="openModal('Banking','बैंकिङ तयारी')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-building-columns"></i></div>  
+   <div class="card-content"><h3>बैंकिङ तयारी</h3><p>NRB / RBB / NBL</p></div>  
+  </div>  
+  <div class="card card-4" onclick="openModal('Police','नेपाल प्रहरी')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>  
+   <div class="card-content"><h3>नेपाल प्रहरी</h3><p>Nepal Police तयारी</p></div>  
+  </div>  
+  <div class="card card-5" onclick="openModal('Army','नेपाली सेना')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>  
+   <div class="card-content"><h3>नेपाली सेना</h3><p>Nepali Army सेवा</p></div>  
+  </div>  
+  <div class="card card-6" onclick="openModal('APF','सशस्त्र प्रहरी')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-shield"></i></div>  
+   <div class="card-content"><h3>सशस्त्र प्रहरी</h3><p>APF परीक्षा तयारी</p></div>  
+  </div>  
+  <div class="card card-7" onclick="openModal('Korean','कोरियन भाषा')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon">🇰🇷</div>  
+   <div class="card-content"><h3>कोरियन भाषा</h3><p>EPS Topik प्रश्नहरू</p></div>  
+  </div>  
+  <div class="card card-8" onclick="openModal('Japanese','जापानी भाषा')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon">🇯🇵</div>  
+   <div class="card-content"><h3>जापानी भाषा</h3><p>JLPT / NAT टेस्ट</p></div>  
+  </div>  
+  <div class="card card-9" onclick="openModal('English','अंग्रेजी भाषा')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon">🇬🇧</div>  
+   <div class="card-content"><h3>अंग्रेजी भाषा</h3><p>IELTS / PTE अभ्यास</p></div>  
+  </div>  
+  <div class="card card-10" onclick="openModal('German','जर्मन भाषा')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon">🇩🇪</div>  
+   <div class="card-content"><h3>जर्मन भाषा</h3><p>German A1/A2 बेसिक्स</p></div>  
+  </div>  
+  <div class="card card-11" onclick="openModal('Sansthan','संस्थान तयारी')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-bolt"></i></div>  
+   <div class="card-content"><h3>संस्थान तयारी</h3><p>NEA / NTC मोडल</p></div>  
+  </div>  
+  <div class="card card-12" onclick="openModal('Health','स्वास्थ्य सेवा')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-heart-pulse"></i></div>  
+   <div class="card-content"><h3>स्वास्थ्य सेवा</h3><p>HA / Staff Nurse</p></div>  
+  </div>  
+  <div class="card card-13" onclick="openModal('Engineering','इन्जिनियरिङ सेवा')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-compass-drafting"></i></div>  
+   <div class="card-content"><h3>इन्जिनियरिङ सेवा</h3><p>Sub-Engineer प्रश्न</p></div>  
+  </div>  
+  <div class="card card-14" onclick="openModal('Computer','कम्प्युटर अपरेटर')">  
+   <i class="fa-solid fa-chevron-right card-arrow"></i><div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div>  
+   <div class="card-content"><h3>कम्प्युटर अपरेटर</h3><p>MCQ & Practical</p></div>  
+  </div>  
+ </div>  
+</main>  
+
+<footer>© <span id="year"></span> डेली सेलिब्रेटी · सिक्दै जानुहोस्, सफल बन्दै जानुहोस्।</footer>  
+
+<div id="quizModal" class="modal">  
+ <div class="modal-content">  
+  <h2 id="modalTitle">विषयको नाम</h2>  
+  <p>तलबाट आफ्नो अभ्यास विधि छान्नुहोस्।</p>  
+  <button class="option-btn" onclick="startQuiz('test')"><i class="fa-solid fa-pen-to-square"></i> Test Quiz</button>  
+  <button class="option-btn" onclick="startQuiz('live')"><i class="fa-solid fa-stopwatch"></i> Live Quiz</button>  
+  <button class="option-btn reading-btn" onclick="openReadingBookSets()"><i class="fa-solid fa-book-open"></i> Reading Book</button>  
+  <button class="close-btn" onclick="closeModal()">बन्द गर्नुहोस्</button>  
+  <div class="social-share-container">  
+   <p>हामीलाई फलो गर्नुहोस्</p>  
+   <div class="social-icons">  
+    <a href="https://www.facebook.com/gknepal400" target="_blank" rel="noopener noreferrer" class="social-icon-btn fb-bg" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>  
+    <a href="https://whatsapp.com/channel/0029Vb8BA4U5EjxrdYNbi62M" target="_blank" rel="noopener noreferrer" class="social-icon-btn wa-bg" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>  
+    <a href="https://tiktok.com/@gknepal40" target="_blank" rel="noopener noreferrer" class="social-icon-btn tt-bg" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>  
+   </div>  
+  </div>  
+ </div>  
+</div>  
+
+<div id="customPopup" class="overlay">  
+ <div class="popup-box">  
+  <h3 id="popupHeaderTitle" style="color:#07865d">🎉 बधाई छ!</h3>  
+  <p id="popupMessage">यो सेट पूरा भयो।</p>  
+  <button class="popup-ok-btn" onclick="handlePopupOk()">OK (अर्को सेट)</button>  
+ </div>  
+</div>  
+
+<div id="customAlertModal" class="overlay">  
+ <div class="custom-alert-box">  
+  <h3>सूचना</h3>  
+  <p id="customAlertMessage">सन्देश यहाँ आउनेछ।</p>  
+  <button class="custom-alert-btn" onclick="closeCustomAlert()">ठीक छ (OK)</button>  
+ </div>  
+</div>  
+
+<div id="quizScreen">  
+ <div class="quiz-wrapper">  
+  <div class="banner-320-container">  
+   <div class="banner-320-body" id="quizBannerContainer"></div>  
+  </div>  
+  <div id="screenContent"></div>  
+ </div>  
+</div>  
+
+<script type="module">  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";  
+import {  
+ getFirestore, collection, getDocs, query, where,  
+ enableIndexedDbPersistence  
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";  
+  
+const firebaseConfig = {  
+ apiKey: "AIzaSyAe32qMUjBMUBL4N6jS8eyVixK2gHMVuXw",  
+ authDomain: "gk-nepal-df869.firebaseapp.com",  
+ projectId: "gk-nepal-df869",  
+ storageBucket: "gk-nepal-df869.firebasestorage.app",  
+ messagingSenderId: "454233438620",  
+ appId: "1:454233438620:web:a8292322e04ffcf2b23059"  
+};  
+  
+const app = initializeApp(firebaseConfig);  
+const db = getFirestore(app);  
+  
+try {  
+ enableIndexedDbPersistence(db).catch(() => {});  
+} catch(e) {}  
+
+function setHtmlWithScripts(element, htmlString) {
+  if (!element) return;
+  element.innerHTML = '';
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlString;
+  
+  Array.from(tempDiv.childNodes).forEach(node => {
+    if (node.nodeName === 'SCRIPT') {
+      const script = document.createElement('script');
+      Array.from(node.attributes).forEach(attr => script.setAttribute(attr.name, attr.value));
+      if (node.src) {
+        script.src = node.src;
+      } else {
+        script.textContent = node.textContent;
+      }
+      document.body.appendChild(script);
+      element.appendChild(script);
+    } else {
+      element.appendChild(node.cloneNode(true));
+    }
+  });
+}
+window.setHtmlWithScripts = setHtmlWithScripts;
+
+const adScriptContent = `
+  <script>
+    atOptions = {
+      'key' : '1cf1ca7d3e9a07aa0f434d3483818b5d',
+      'format' : 'iframe',
+      'height' : 50,
+      'width' : 320,
+      'params' : {}
+    };
+  <\/script>
+  <script src="https://www.highrevenueformat.com/1cf1ca7d3e9a07aa0f434d3483818b5d/invoke.js"><\/script>
+`;
+
+const mainBannerEl = document.getElementById('mainBannerContainer');
+if(mainBannerEl) {
+  setHtmlWithScripts(mainBannerEl, adScriptContent);
+}
+
+window.loadQuizAd = function() {
+  const quizBannerEl = document.getElementById('quizBannerContainer');
+  if(quizBannerEl) {
+    setHtmlWithScripts(quizBannerEl, adScriptContent);
+  }
+};
+  
+const modal = document.getElementById("quizModal");  
+const modalTitle = document.getElementById("modalTitle");  
+const quizScreen = document.getElementById("quizScreen");  
+const screenContent = document.getElementById("screenContent");  
+const customPopup = document.getElementById("customPopup");  
+const customAlertModal = document.getElementById("customAlertModal");  
+const customAlertMessage = document.getElementById("customAlertMessage");  
+  
+document.getElementById("year").textContent = new Date().getFullYear();  
+  
+let selectedCategoryKey = "";  
+let selectedCategoryTitle = "";  
+let quizMode = "test";  
+let allSetsData = {};  
+let availableSets = [];  
+let currentSetIndex = 0;  
+let activeQuestions = [];  
+let currentQuestionIndex = 0;  
+let correctScore = 0;  
+let wrongScore = 0;  
+let timerInterval = null;  
+let timeLeft = 25;  
+let pendingNextAction = null;  
+let audioCtx = null;  
+  
+function getAudioContext() {  
+ if (!audioCtx) {  
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;  
+  if (!AudioContextClass) return null;  
+  audioCtx = new AudioContextClass();  
+ }  
+ if (audioCtx.state === "suspended") audioCtx.resume();  
+ return audioCtx;  
+}  
+  
+function playTone(type, frequencies, duration, volume) {  
+ try {  
+  const ctx = getAudioContext();  
+  if (!ctx) return;  
+  const now = ctx.currentTime;  
+  const osc = ctx.createOscillator();  
+  const gain = ctx.createGain();  
+  osc.type = type;  
+  osc.frequency.setValueAtTime(frequencies[0], now);  
+  if (frequencies[1]) osc.frequency.setValueAtTime(frequencies[1], now + duration * .35);  
+  if (frequencies[2]) osc.frequency.setValueAtTime(frequencies[2], now + duration * .65);  
+  gain.gain.setValueAtTime(volume, now);  
+  gain.gain.exponentialRampToValueAtTime(.001, now + duration);  
+  osc.connect(gain);  
+  gain.connect(ctx.destination);  
+  osc.start(now);  
+  osc.stop(now + duration);  
+ } catch(e) {}  
+}  
+function playCorrectSound(){playTone("triangle",[523.25,659.25,783.99],.4,.35)}  
+function playWrongSound(){playTone("sawtooth",[140,100],.35,.25)}  
+function playTickSound(urgent){playTone("sine",[urgent?1000:700],.08,.2)}  
+  
+window.showAlert = function(message) {  
+ customAlertMessage.textContent = message;  
+ customAlertModal.style.display = "flex";  
+};  
+window.closeCustomAlert = function() {  
+ customAlertModal.style.display = "none";  
+};  
+window.openModal = function(catKey,title) {  
+ selectedCategoryKey = catKey;  
+ selectedCategoryTitle = title;  
+ modalTitle.textContent = title;  
+ modal.style.display = "flex";  
+};  
+window.closeModal = function() {  
+ modal.style.display = "none";  
+};  
+
+window.closeQuizScreen = function() {  
+ clearInterval(timerInterval);  
+ timerInterval = null;  
+ quizScreen.style.display = "none";  
+};  
+  
+function processQuestionsIntoSets(rawQuestions) {  
+ allSetsData = {};  
+ for (let i=0;i<rawQuestions.length;i+=50) {  
+  allSetsData[`Set ${Math.floor(i/50)+1}`] = rawQuestions.slice(i,i+50);  
+ }  
+ availableSets = Object.keys(allSetsData);  
+}  
+  
+function getOptionInfo(opt) {  
+ const text = (typeof opt === "object" && opt !== null ? opt.text : opt ?? "").toString().trim();  
+ const isCorrect = /[✅✔*]/.test(text);  
+ const clean = text.replace(/[✅✔*]/g,"").replace(/^[A-Da-d][.)]\s*/,"").trim();  
+ return {text:clean,isCorrect};  
+}  
+  
+window.startQuiz = async function(mode) {  
+ window.closeModal();  
+
+ if (mode === "live" && !navigator.onLine) {  
+  window.showAlert("Live Quiz खेल्नका लागि अनिवार्य इन्टरनेट जडान हुनुपर्छ। कृपया इन्टरनेट अन गर्नुहोस्।");  
+  return;  
+ }  
+  
+ quizMode = mode;  
+ quizScreen.style.display = "flex";  
+ window.loadQuizAd();  
+ currentSetIndex = 0;  
+ currentQuestionIndex = 0;  
+ correctScore = 0;  
+ wrongScore = 0;  
+ screenContent.innerHTML = '<div class="quiz-container-box loading-text">कृपया प्रश्नहरू लोड हुन पर्खनुहोस्...</div>';  
+
+ const cacheKey = `cached_q_${selectedCategoryKey}_${mode}`;
+
+ try {  
+  let rawQuestions = [];
+
+  if (navigator.onLine) {
+   const qRef = query(  
+    collection(db,"questions"),  
+    where("category","==",selectedCategoryKey),  
+    where("mode","==",mode)  
+   );  
+   const snapshot = await getDocs(qRef);  
+   snapshot.forEach(docSnap => rawQuestions.push(docSnap.data()));  
+   if (rawQuestions.length > 0) {
+    localStorage.setItem(cacheKey, JSON.stringify(rawQuestions));
+   }
+  } else {
+   const localData = localStorage.getItem(cacheKey);
+   if (localData) {
+    rawQuestions = JSON.parse(localData);
+   }
+  }
+  
+  if (!rawQuestions.length) {  
+   window.closeQuizScreen();  
+   if (!navigator.onLine) {
+    window.showAlert("अफलाइन मोडमा प्रश्नहरू उपलब्ध भएनन्। एकपटक इन्टरनेट अन गरेर प्रश्न लोड गर्नुहोस्।");
+   } else {
+    window.showAlert(`यस विषयमा हाल ${mode === 'live' ? 'Live Quiz' : 'Test Quiz'} का प्रश्नहरू उपलब्ध छैनन्।`);  
+   }
+   return;  
+  }  
+
+  processQuestionsIntoSets(rawQuestions);  
+  activeQuestions = allSetsData[availableSets[0]];  
+  window.loadQuizQuestion();  
+ } catch(error) {  
+  console.error("Error fetching questions:",error);  
+  const localData = localStorage.getItem(cacheKey);
+  if (mode === "test" && localData) {
+   let rawQuestions = JSON.parse(localData);
+   processQuestionsIntoSets(rawQuestions);  
+   activeQuestions = allSetsData[availableSets[0]];  
+   window.loadQuizQuestion();
+  } else {
+   window.closeQuizScreen();  
+   window.showAlert("प्रश्नहरू लोड गर्न सकिएन।");  
+  }
+ }  
+};  
+  
+window.openReadingBookSets = async function() {  
+ window.closeModal();  
+ quizScreen.style.display = "flex";  
+ window.loadQuizAd();  
+ screenContent.innerHTML = '<div class="quiz-container-box loading-text">Reading Book सेटहरू लोड हुँदैछन्...</div>';  
+  
+ const cacheKey = `cached_q_${selectedCategoryKey}_reading`;
+
+ try {  
+  let rawQuestions = [];
+
+  if (navigator.onLine) {
+   const qRef = query(  
+    collection(db,"questions"),  
+    where("category","==",selectedCategoryKey),  
+    where("mode","==","reading")  
+   );  
+   const snapshot = await getDocs(qRef);  
+   snapshot.forEach(docSnap => rawQuestions.push(docSnap.data()));  
+   if (rawQuestions.length > 0) {
+    localStorage.setItem(cacheKey, JSON.stringify(rawQuestions));
+   }
+  } else {
+   const localData = localStorage.getItem(cacheKey);
+   if (localData) rawQuestions = JSON.parse(localData);
+  }
+  
+  if (!rawQuestions.length) {  
+   screenContent.innerHTML = `  
+    <div class="quiz-container-box">  
+     <div class="quiz-header-title"><i class="fa-solid fa-book-open" style="color:#079669"></i> READING BOOK</div>  
+     <div class="quiz-sub-title">${selectedCategoryTitle}</div>  
+     <p style="font-size:13px;color:#dc3545;text-align:center;padding:25px 0;font-weight:700;">यस विषयमा हाल Reading Book का प्रश्नहरू उपलब्ध छैनन्।</p>  
+     <button class="close-btn" onclick="closeQuizScreen()">बन्द गर्नुहोस्</button>  
+    </div>`;  
+   return;  
+  }  
+  
+  processQuestionsIntoSets(rawQuestions);  
+  const buttons = availableSets.map(name =>  
+   `<button class="set-btn" onclick="startReadingBookSet('${name}')">  
+    <i class="fa-solid fa-book-open" style="color:#356cf6;margin-right:7px"></i>  
+    ${name} <span style="color:#78859a;font-weight:600">(${allSetsData[name].length} प्रश्न)</span>  
+   </button>`  
+  ).join("");  
+  
+  screenContent.innerHTML = `  
+   <div class="quiz-container-box">  
+    <div class="quiz-header-title"><i class="fa-solid fa-book-open" style="color:#079669"></i> READING BOOK</div>  
+    <div class="quiz-sub-title">${selectedCategoryTitle}</div>  
+    <p style="font-size:13px;color:#69778d;text-align:center">पढ्नका लागि एउटा सेट छान्नुहोस्। प्रत्येक सेटमा बढीमा ५० प्रश्न छन्।</p>  
+    ${buttons}  
+    <button class="close-btn" onclick="closeQuizScreen()">बन्द गर्नुहोस्</button>  
+   </div>`;  
+ } catch(error) {  
+  console.error("Error loading reading sets:",error);  
+  screenContent.innerHTML = '<div class="quiz-container-box loading-text" style="color:#dc3545">सेटहरू लोड गर्न सकिएन।</div>';  
+ }  
+};  
+  
+window.startReadingBookSet = function(setName) {  
+ const questions = allSetsData[setName] || [];  
+ const letters = ["A","B","C","D"];  
+ let html = "";  
+  
+ questions.forEach((q,index) => {  
+  const opts = Array.isArray(q.options) ? q.options : [];  
+  let foundCorrect = false;  
+  
+  const optionHtml = opts.map((opt,i) => {  
+   const info = getOptionInfo(opt);  
+   const correct = info.isCorrect && !foundCorrect;  
+   if (correct) foundCorrect = true;  
+   return `<div class="mcq-option" style="${correct?"background:#dff8eb;border-color:#41bf8a":""}">  
+    <div class="option-badge" style="${correct?"background:#07865d;color:#fff":""}">${letters[i%4]}</div>  
+    <span style="${correct?"font-weight:800;color:#08764f":""}">${escapeHtml(info.text)}${correct?" ✔ (सही उत्तर)":""}</span>  
+   </div>`;  
+  }).join("");  
+  
+  html += `<div class="reading-question-card">  
+   <div style="font-size:12px;font-weight:800;color:#69778d;margin-bottom:8px">प्रश्न नं. ${index+1}</div>  
+   <div class="question-box">${escapeHtml(q.question || "प्रश्न उपलब्ध छैन")}</div>  
+   ${optionHtml}  
+   <div class="reading-social-box">  
+    <span>हामीलाई फलो गर्नुहोस्</span>  
+    <div class="reading-social-icons">  
+     <a href="https://www.facebook.com/gknepal400" target="_blank" rel="noopener noreferrer" class="reading-soc-btn fb-bg">Facebook</a>  
+     <a href="https://whatsapp.com/channel/0029Vb8BA4U5EjxrdYNbi62M" target="_blank" rel="noopener noreferrer" class="reading-soc-btn wa-bg">WhatsApp</a>  
+     <a href="https://tiktok.com/@gknepal40" target="_blank" rel="noopener noreferrer" class="reading-soc-btn tt-bg">TikTok</a>  
+    </div>  
+   </div>  
+  </div>`;  
+ });  
+  
+ screenContent.innerHTML = `  
+  <div class="quiz-container-box" style="padding:10px;background:transparent;border:0;box-shadow:none">  
+   <div class="quiz-container-box">  
+    <div class="quiz-header-title">📖 READING BOOK · ${escapeHtml(setName)}</div>  
+    <div class="quiz-sub-title">${escapeHtml(selectedCategoryTitle)}</div>  
+   </div>  
+   ${html}  
+   <button class="close-btn" onclick="openReadingBookSets()">← अन्य सेटहरूमा फर्कनुहोस्</button>  
+  </div>`;  
+};  
+  
+window.loadQuizQuestion = function() {  
+ clearInterval(timerInterval);  
+ timerInterval = null;  
+  
+ if (quizMode === "live" && !navigator.onLine) {  
+  window.closeQuizScreen();  
+  window.showAlert("इन्टरनेट जडान विच्छेद भयो। Live Quiz बन्द गरिएको छ।");  
+  return;  
+ }  
+
+ // प्रत्येक ४ प्रश्न पार गरेपछि विज्ञापन (Ad) रिफ्रेस/चेन्ज गर्ने
+ if (currentQuestionIndex > 0 && currentQuestionIndex % 4 === 0) {
+  window.loadQuizAd();
+ }
+  
+ if (currentQuestionIndex >= activeQuestions.length) {  
+  const setName = availableSets[currentSetIndex] || "Set";  
+  const hasNext = currentSetIndex+1 < availableSets.length;  
+  document.getElementById("popupHeaderTitle").textContent = `🎉 ${setName} पूरा भयो!`;  
+  document.getElementById("popupMessage").textContent = hasNext  
+   ? `${setName} का सबै प्रश्न सकिए। अर्को सेट सुरु गर्न OK थिच्नुहोस्।`  
+   : "यो अन्तिम सेट थियो। फेरि पहिलो सेटबाट सुरु गर्न OK थिच्नुहोस्।";  
+  document.querySelector(".popup-ok-btn").textContent = hasNext ? "OK (अर्को सेट)" : "OK (पुनः सुरु)";  
+  customPopup.style.display = "flex";  
+  return;  
+ }  
+  
+ const q = activeQuestions[currentQuestionIndex];  
+ const letters = ["A","B","C","D"];  
+ let foundCorrect = false;  
+  
+ const optionsHtml = (Array.isArray(q.options)?q.options:[]).map((opt,index) => {  
+  const info = getOptionInfo(opt);  
+  const isCorrect = info.isCorrect && !foundCorrect;  
+  if (isCorrect) {  
+   foundCorrect = true;  
+  }  
+  return `<div class="mcq-option" data-correct="${isCorrect}" onclick="handleOptionClick(this,${isCorrect})">  
+   <div class="option-badge">${letters[index%4]}</div>  
+   <span>${escapeHtml(info.text)}</span>  
+  </div>`;  
+ }).join("");  
+  
+ const headerTitle = quizMode==="live" ? "LIVE QUIZ" : `TEST QUIZ (${availableSets[currentSetIndex]})`;  
+ const timerHtml = quizMode==="live" ? '<span class="timer-display">समय: <span id="timeCount">25</span> सेकेन्ड</span>' : "";  
+  
+ screenContent.innerHTML = `  
+  <div class="quiz-container-box">  
+   <div class="quiz-header-title">${headerTitle}</div>  
+   <div class="quiz-sub-title">${escapeHtml(selectedCategoryTitle)}</div>  
+   <div class="score-board">  
+    <span class="correct-count">सही: ${correctScore}</span>  
+    <div class="quiz-social-bar">  
+     <a href="https://www.facebook.com/gknepal400" target="_blank" rel="noopener noreferrer" class="quiz-social-icon fb-bg"><i class="fa-brands fa-facebook-f"></i></a>  
+     <a href="https://whatsapp.com/channel/0029Vb8BA4U5EjxrdYNbi62M" target="_blank" rel="noopener noreferrer" class="quiz-social-icon wa-bg"><i class="fa-brands fa-whatsapp"></i></a>  
+     <a href="https://tiktok.com/@gknepal40" target="_blank" rel="noopener noreferrer" class="quiz-social-icon tt-bg"><i class="fa-brands fa-tiktok"></i></a>  
+    </div>  
+    <span class="wrong-count">गलत: ${wrongScore}</span>  
+   </div>  
+   <div class="quiz-info-row">  
+    <span>प्रश्न: ${currentQuestionIndex+1} / ${activeQuestions.length}</span>  
+    ${timerHtml}  
+   </div>  
+   <div class="question-box">${escapeHtml(q.question || "प्रश्न उपलब्ध छैन")}</div>  
+   ${optionsHtml || '<p>यस प्रश्नका विकल्प उपलब्ध छैनन्।</p>'}  
+   <button class="close-btn" onclick="closeQuizScreen()">बन्द गर्नुहोस्</button>  
+  </div>`;  
+  
+ if (quizMode==="live") {  
+  timeLeft = 25;  
+  const timerEl = document.getElementById("timeCount");  
+  timerInterval = setInterval(() => {  
+   if (!navigator.onLine) {  
+    clearInterval(timerInterval);  
+    window.closeQuizScreen();  
+    window.showAlert("इन्टरनेट जडान विच्छेद भयो। Live Quiz बन्द गरिएको छ।");  
+    return;  
+   }  
+   timeLeft--;  
+   if (timerEl) timerEl.textContent = timeLeft;  
+   if (timeLeft>0) playTickSound(timeLeft<=5);  
+   if (timeLeft<=0) {  
+    clearInterval(timerInterval);  
+    window.handleTimeOut();  
+   }  
+  },1000);  
+ }  
+};  
+  
+window.handleOptionClick = function(element,isCorrect) {  
+ if (element.dataset.answered==="true") return;  
+ clearInterval(timerInterval);  
+ timerInterval = null;  
+ document.querySelectorAll(".mcq-option").forEach(opt => {  
+  opt.style.pointerEvents = "none";  
+  opt.dataset.answered = "true";  
+ });  
+  
+ if (isCorrect) {  
+  playCorrectSound();  
+  element.style.background = "#dff8eb";  
+  element.style.borderColor = "#41bf8a";  
+  correctScore++;  
+ } else {  
+  playWrongSound();  
+  element.style.background = "#ffebed";  
+  element.style.borderColor = "#f0808b";  
+  wrongScore++;  
+  document.querySelectorAll('.mcq-option[data-correct="true"]').forEach(opt => {  
+   opt.style.background = "#dff8eb";  
+   opt.style.borderColor = "#41bf8a";  
+  });  
+ }  
+  
+ setTimeout(() => {  
+  currentQuestionIndex++;  
+  window.loadQuizQuestion();  
+ },1200);  
+};  
+  
+window.handleTimeOut = function() {  
+ playWrongSound();  
+ wrongScore++;  
+ document.querySelectorAll(".mcq-option").forEach(opt => {  
+  opt.style.pointerEvents = "none";  
+  if (opt.dataset.correct==="true") {  
+   opt.style.background = "#dff8eb";  
+   opt.style.borderColor = "#41bf8a";  
+  }  
+ });  
+ setTimeout(() => {  
+  currentQuestionIndex++;  
+  window.loadQuizQuestion();  
+ },1200);  
+};  
+  
+window.handlePopupOk = function() {  
+ customPopup.style.display = "none";  
+ if (!availableSets.length) return;  
+ currentSetIndex = (currentSetIndex+1)%availableSets.length;  
+ activeQuestions = allSetsData[availableSets[currentSetIndex]] || [];  
+ currentQuestionIndex = 0;  
+ window.loadQuizQuestion();  
+};  
+  
+window.addEventListener("click",event => {  
+ if (event.target===modal) window.closeModal();  
+ if (event.target===customAlertModal) window.closeCustomAlert();  
+});  
+  
+function escapeHtml(value) {  
+ return String(value ?? "").replace(/[&<>"']/g,char => ({  
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"  
+ }[char]));  
+}  
+  
+if ("serviceWorker" in navigator) {  
+ window.addEventListener("load",() => {  
+  preloadServiceWorker();  
+ });  
+}  
+function preloadServiceWorker(){  
+ navigator.serviceWorker.register("/sw.js")  
+  .then(reg => console.log("Service Worker registered",reg))  
+  .catch(err => console.log("Service Worker registration failed",err));  
+}  
+</script>  
+</body>  
+</html>
